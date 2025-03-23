@@ -143,14 +143,14 @@ echo Сейчас для установки плагинов откроется 
 timeout 2
 powershell "start-process -wait 'C:\Program Files\Zotero\zotero.exe'"
 echo Активирую плагины Zotero...
-powershell.exe "(Get-Content $env:%appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions.json) -replace 'active\":false,\"userDisabled\":true','active\":true,\"userDisabled\":false' | Out-File -encoding ASCII $env:%appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions.json"
+powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions.json) -replace 'active\":false,\"userDisabled\":true','active\":true,\"userDisabled\":false' | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions.json"
 
 echo 'Настраиваю авто-экспорт библиотеки Zotero...'
 type %USERPROFILE%\.konspekt\obsidian-test-main\zotero.pref_win.js >> %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js
-powershell.exe "(Get-Content $env:%appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII $env:%appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js"
+powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js"
 
 echo Вишенка на торте (Citation key)...
-powershell.exe "(Get-Content $env:%appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json) -replace 'better-bibtex-iris-advies-com-citationKey\",\"ordinal\":33,\"hidden\":true','better-bibtex-iris-advies-com-citationKey\",\"ordinal\":33,\"hidden\":false' | Out-File -encoding ASCII $env:%appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json"
+powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json) -replace 'better-bibtex-iris-advies-com-citationKey\",\"ordinal\":33,\"hidden\":true','better-bibtex-iris-advies-com-citationKey\",\"ordinal\":33,\"hidden\":false' | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json"
 
 
 echo Очистка временных файлов...
