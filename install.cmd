@@ -1,6 +1,10 @@
 @echo off & setlocal
 chcp 65001
+echo Начало работы скрипта...
+pause
+
 md %USERPROFILE%\.konspekt 2>nul
+
 echo ###Проверка наличия Winget в системе
 where /q winget
 IF ERRORLEVEL 1 (
