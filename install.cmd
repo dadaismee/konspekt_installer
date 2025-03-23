@@ -150,7 +150,7 @@ type %USERPROFILE%\.konspekt\obsidian-test-main\zotero.pref_win.js >> %appdata%\
 powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js"
 
 echo Вишенка на торте (Citation key)...
-powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json) -replace 'better-bibtex-iris-advies-com-citationKey\",\"ordinal\":33,\"hidden\":true','better-bibtex-iris-advies-com-citationKey\",\"ordinal\":33,\"hidden\":false' | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json"
+powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json) -replace 'true}}}','false}}}' | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json"
 
 
 echo Очистка временных файлов...

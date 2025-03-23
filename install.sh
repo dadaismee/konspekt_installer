@@ -156,6 +156,9 @@ echo 'Настраиваю авто-экспорт библиотеки Zotero..
 cat $HOME/testroot/zotero.pref.js >> ~/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 sed -i '' -e "s|testuser|$(whoami)|g" ~/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 
+echo Вишенка на торте (Citation key)...
+sed -i '' -e "s|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":true|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":false|g" ~/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
+
 echo 'Очистка временных файлов...'
 rm -rf $HOME/testroot
 echo 'Удалён репозиторий с  шаблонными настройками Obsidian'
