@@ -26,8 +26,8 @@ echo ###Установка obsidian-cli и tectonic...
 where /q obsidian-cli
 IF ERRORLEVEL 1 (
     ECHO obsidian-cli не установлен. Устанавливаю...
-	powershell.exe "scoop bucket add scoop-yakitrak https://github.com/yakitrak/scoop-yakitrak.git"
-	powershell.exe "scoop install obsidian-cli"
+	C:\Users\%username%\scoop\shims\scoop bucket add scoop-yakitrak https://github.com/yakitrak/scoop-yakitrak.git"
+	C:\Users\%username%\scoop\shims\scoop install obsidian-cli
 ) ELSE (
     ECHO obsidian-cli найден, отлично...
 )
@@ -36,11 +36,11 @@ rem for /f %%i in ('where obsidian-cli') do set obscli_path=%%i
 where /q tectonic
 IF ERRORLEVEL 1 (
     ECHO tectonic не установлен. Устанавливаю...
-	powershell.exe "scoop install tectonic"
+	C:\Users\%username%\scoop\shims\scoop install tectonic
 ) ELSE (
     ECHO tectonic найден, отлично...
 )
-for /f %%i in ('where tectonic') do set tectonic_path=%%i
+rem for /f %%i in ('where tectonic') do set tectonic_path=%%i
 
 where /q pandoc
 if errorlevel 1 (
