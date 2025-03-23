@@ -57,12 +57,14 @@ if errorlevel 1 (
 
 rem set batchPath=%~dp0
 
-echo ###Клонируем репозиторий с настройками Obsidian и Zotero...
-curl.exe -o %USERPROFILE%\.konspekt\obstest.zip -LC - https://github.com/openmindead/obsidian-test/archive/refs/heads/main.zip
+echo ###Скачивание репозитория с настройками Obsidian и Zotero...
+curl.exe -o %USERPROFILE%\.konspekt\obstest.zip -L https://github.com/openmindead/obsidian-test/archive/refs/heads/main.zip
 tar -xf %USERPROFILE%\.konspekt\obstest.zip -C %USERPROFILE%\.konspekt
 
 echo ###Установка Obsidian ...
-if not exist C:\Users\%username%\AppData\Local\Programs\Obsidian\Obsidian.exe winget install -e --id Obsidian.Obsidian --silent
+if not exist C:\Users\%username%\AppData\Local\Programs\Obsidian\Obsidian.exe (
+    winget install -e --id Obsidian.Obsidian --silent
+)
 md %appdata%\obsidian 2>nul
 
 if not exist %appdata%\obsidian\obsidian.json (
@@ -104,10 +106,10 @@ echo ###Установка Zotero ...
 if not exist "C:\Program Files\Zotero\zotero.exe" winget install -e --id DigitalScholar.Zotero --silent
 
 echo ###Загрузка плагинов Зотеро
-curl.exe -o %USERPROFILE%\.konspekt\bibtex.zip -LC - https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi
+curl.exe -o %USERPROFILE%\.konspekt\bibtex.zip -L https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi
 md %USERPROFILE%\.konspekt\bibtex 2>nul & tar -xf %USERPROFILE%\.konspekt\bibtex.zip -C %USERPROFILE%\.konspekt\bibtex
 echo ###Загрузка плагина better-bibtex завершена...
-curl.exe -o %USERPROFILE%\.konspekt\zotmoov.zip -LC - https://github.com/wileyyugioh/zotmoov/releases/download/1.2.11/zotmoov-1.2.11-fx.xpi
+curl.exe -o %USERPROFILE%\.konspekt\zotmoov.zip -L https://github.com/wileyyugioh/zotmoov/releases/download/1.2.11/zotmoov-1.2.11-fx.xpi
 md %USERPROFILE%\.konspekt\zotmoov 2>nul & tar -xf %USERPROFILE%\.konspekt\zotmoov.zip -C %USERPROFILE%\.konspekt\zotmoov
 echo ###Загрузка плагина zotmoov завершена...
 
