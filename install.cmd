@@ -74,6 +74,11 @@ if not exist %appdata%\obsidian\obsidian.json (
 ) else (
 	>nul find "konspekt_pack" %appdata%\obsidian\obsidian.json && (
 		echo Хранилище с таким именем уже существует
+		echo Переименуем текущее хранилище во избежание...
+		powershell "Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian.json.original"
+		copy %USERPROFILE%\.konspekt\obsidian-test-main\obsidian_win.json %appdata%\obsidian\obsidian.json
+		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+		echo Старый конфиг хранилища был переименован
 	) || (
 		echo Добавим новое хранилище Obsidian в существующий конфиг...
 		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace '}}}','},\"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\Documents\\konspekt_pack\",\"ts\":1739264225722,\"open\":true}}}' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
