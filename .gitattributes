@@ -1,4 +1,0 @@
-*.sh text eol=cr
-*.command text eol=cr
-*.cmd text el=crlf
-*.ps1 text eol=crlf
