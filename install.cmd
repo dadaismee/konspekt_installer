@@ -5,7 +5,7 @@ pause
 
 md %USERPROFILE%\.konspekt 2>nul
 
-echo Проверка наличия Winget в системе
+echo ###Проверка наличия Winget в системе
 where /q winget
 IF ERRORLEVEL 1 (
     ECHO Winget не установлен. Установите его, например, из магазина приложений Windows, или скачайте по ссылке "https://api.github.com/repos/microsoft/winget-cli/releases/latest"
@@ -17,7 +17,7 @@ IF ERRORLEVEL 1 (
 
 powershell.exe Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force 2>nul
 
-echo Посмотрим, установлен ли Scoop...
+echo ###Посмотрим, установлен ли Scoop...
 where /q scoop
 IF ERRORLEVEL 1 (
     ECHO Scoop не установлен. Устанавливаю...
@@ -27,7 +27,7 @@ IF ERRORLEVEL 1 (
     ECHO Scoop найден, отлично...
 )
 
-echo Установка obsidian-cli и tectonic...
+echo ###Установка obsidian-cli и tectonic...
 where /q obsidian-cli
 IF ERRORLEVEL 1 (
     ECHO obsidian-cli не установлен. Устанавливаю...
@@ -49,7 +49,7 @@ IF ERRORLEVEL 1 (
 
 where /q pandoc
 if errorlevel 1 (
-	echo Pandoc не найден, устанавливаю ...
+	echo ###Pandoc не найден, устанавливаю ...
 	winget install -e --id JohnMacFarlane.Pandoc --silent
 ) else (
 	echo Pandoc уже установлен
@@ -57,11 +57,11 @@ if errorlevel 1 (
 
 rem set batchPath=%~dp0
 
-echo Скачивание репозитория с настройками Obsidian и Zotero...
+echo ###Скачивание репозитория с настройками Obsidian и Zotero...
 curl.exe -o %USERPROFILE%\.konspekt\obstest.zip -L https://github.com/openmindead/obsidian-test/archive/refs/heads/main.zip
 tar -xf %USERPROFILE%\.konspekt\obstest.zip -C %USERPROFILE%\.konspekt
 
-echo Установка Obsidian ...
+echo ###Установка Obsidian ...
 if not exist C:\Users\%username%\AppData\Local\Programs\Obsidian\Obsidian.exe (
     winget install -e --id Obsidian.Obsidian --silent
 )
@@ -107,16 +107,16 @@ echo Сейчас откроется Obsidian, нажмите "Доверять 
 timeout 2
 start /wait C:\Users\%username%\AppData\Local\Programs\Obsidian\Obsidian.exe
 
-echo Установка Zotero ...
+echo ###Установка Zotero ...
 if not exist "C:\Program Files\Zotero\zotero.exe" winget install -e --id DigitalScholar.Zotero --silent
 
-echo Загрузка плагинов Зотеро
+echo ###Загрузка плагинов Зотеро
 curl.exe -o %USERPROFILE%\.konspekt\bibtex.zip -L https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi
 md %USERPROFILE%\.konspekt\bibtex 2>nul & tar -xf %USERPROFILE%\.konspekt\bibtex.zip -C %USERPROFILE%\.konspekt\bibtex
-echo Загрузка плагина better-bibtex завершена...
+echo ###Загрузка плагина better-bibtex завершена...
 curl.exe -o %USERPROFILE%\.konspekt\zotmoov.zip -L https://github.com/wileyyugioh/zotmoov/releases/download/1.2.11/zotmoov-1.2.11-fx.xpi
 md %USERPROFILE%\.konspekt\zotmoov 2>nul & tar -xf %USERPROFILE%\.konspekt\zotmoov.zip -C %USERPROFILE%\.konspekt\zotmoov
-echo Загрузка плагина zotmoov завершена...
+echo ###Загрузка плагина zotmoov завершена...
 
 echo Сейчас откроется окно Zotero, закройте его через одну-две секунды
 timeout 2
