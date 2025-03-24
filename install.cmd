@@ -88,7 +88,7 @@ if not exist %appdata%\obsidian\obsidian.json (
 
 if not exist C:\Users\%username%\Documents\konspekt_pack (
     md C:\Users\%username%\Documents\konspekt_pack 2>nul
-	xcopy /E %USERPROFILE%\.konspekt\obsidian-test-main\konspekt_pack C:\Users\%username%\Documents\konspekt_pack 2>nul
+	xcopy /eqy %USERPROFILE%\.konspekt\obsidian-test-main\konspekt_pack C:\Users\%username%\Documents\konspekt_pack
     echo Файлы хранилища Obsidian скопированы
 ) else (
     echo Файлы хранилища Obsidian уже на месте
@@ -130,9 +130,9 @@ echo Устанавливаю и настраиваю плагины Zotero...
 for /f "tokens=1,2delims=/" %%i in ('powershell "Get-Content $env:APPDATA\Zotero\Zotero\profiles.ini | Select-String -Pattern Path"') do set zotero_profile_name=%%j
 md %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions 2>nul
 md %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\better-bibtex@iris-advies.com 2>nul
-xcopy /E %USERPROFILE%\.konspekt\bibtex %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\better-bibtex@iris-advies.com 2>nul
+xcopy /eqy %USERPROFILE%\.konspekt\bibtex %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\better-bibtex@iris-advies.com
 md %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\zotmoov@wileyy.com 2>nul
-xcopy /E %USERPROFILE%\.konspekt\zotmoov %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\zotmoov@wileyy.com 2>nul
+xcopy /eqy %USERPROFILE%\.konspekt\zotmoov %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\zotmoov@wileyy.com
 type %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js | findstr /v lastAppVersion | findstr /v lastAppBuildId > prefs.js
 echo user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "auth.lower + year");>> prefs.js
 echo user_pref("extensions.zotero.translators.better-bibtex.citekeyFormatEditing", "auth.lower + year");>> prefs.js
