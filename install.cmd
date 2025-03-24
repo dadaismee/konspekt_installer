@@ -1,4 +1,4 @@
-@echo off & setlocal
+rem @echo off & setlocal
 chcp 65001
 echo Начало работы скрипта...
 pause
