@@ -149,18 +149,19 @@ echo Настраиваю авто-экспорт библиотеки Zotero...
 type %USERPROFILE%\.konspekt\obsidian-test-main\zotero.pref_win.js >> %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js
 powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js"
 
-echo Ещё раз откроем Zotero для финальных шрихов, закройте его как уже, наверное, привыкли ;)
-timeout 2
-powershell "start-process -wait 'C:\Program Files\Zotero\zotero.exe'"
-
-echo Вишенка на торте (Citation key)...
-powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json) -replace 'true}}}','false}}}' | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json"
-
 
 echo Очистка временных файлов...
 rd /s /q %USERPROFILE%\.konspekt
 del prefs.js
 echo Очистка временных файлов завершена
+
+echo Ещё раз откроем Zotero для финальных шрихов, закройте его через секунд 10
+timeout 2
+powershell "start-process -wait 'C:\Program Files\Zotero\zotero.exe'"
+
+echo Попытка настройки отображения Citation key...
+powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json) -replace 'true}}}','false}}}' | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json"
+
 echo Установка завершена, открываю Obsidian. Всего доброго!
 timeout 2
 start C:\Users\%username%\AppData\Local\Programs\Obsidian\Obsidian.exe
