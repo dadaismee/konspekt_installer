@@ -69,11 +69,11 @@ obcli_path=$(which obsidian-cli)
 #echo $obcli_path
 
 echo 'Клонируем репозиторий с настройками Obsidian...'
-git clone https://github.com/dadaismee/konspekt-starter-pack.git $HOME/testroot
+git clone https://github.com/dadaismee/konspekt-starter-pack.git $HOME/.konspekt
 mkdir -p ~/Library/Application\ Support/obsidian
 if [ ! -f ~/Library/Application\ Support/obsidian/obsidian.json ]; then
     echo "Конфиг Obsidian не найден. Используем нашу заготовку..."
-    cp $HOME/testroot/obsidian.json ~/Library/Application\ Support/obsidian/
+    cp $HOME/.konspekt/obsidian.json ~/Library/Application\ Support/obsidian/
     sed -i '' -e "s|test|$(whoami)|g" ~/Library/Application\ Support/obsidian/obsidian.json
 else
     if grep -q konspekt_pack ~/Library/Application\ Support/obsidian/obsidian.json; then
@@ -85,7 +85,7 @@ else
 fi
 
 if [ ! -d ~/Documents/konspekt_pack ]; then
-    cp -R $HOME/testroot/konspekt_pack ~/Documents
+    cp -R $HOME/.konspekt/konspekt_pack ~/Documents
     echo "Файлы хранилища Obsidian скопированы"
 else
     echo "Файлы хранилища Obsidian уже на месте"
@@ -128,11 +128,11 @@ fi
 
 if [ ! -f ~/Zotero/zotero.sqlite ]; then
     echo "Копирую библиотеку Zotero..."
-    cp $HOME/testroot/zotero.sqlite /Users/$USER/Zotero/zotero.sqlite
+    cp $HOME/.konspekt/zotero.sqlite /Users/$USER/Zotero/zotero.sqlite
 else
     mv /Users/$USER/Zotero/zotero.sqlite /Users/$USER/Zotero/zotero.sqlite.original
     echo "Существующая база Зотеро сохранена как ~/Zotero/zotero.sqlite.original. Вы можете восстановить её, если необходимо, удалив '.original' в названии этого файла."
-    cp $HOME/testroot/zotero.sqlite /Users/$USER/Zotero/zotero.sqlite
+    cp $HOME/.konspekt/zotero.sqlite /Users/$USER/Zotero/zotero.sqlite
     echo "Новая библиотека Зотеро установлена вместо существующей"
 fi
 
@@ -155,7 +155,7 @@ echo 'Активирую плагины Zotero...'
 sed -i '' -e 's|active":false,"userDisabled":true|active":true,"userDisabled":false|g' ~/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions.json
 sleep 1
 echo 'Настраиваю авто-экспорт библиотеки Zotero...'
-cat $HOME/testroot/zotero.pref.js >> ~/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
+cat $HOME/.konspekt/zotero.pref.js >> ~/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 sed -i '' -e "s|testuser|$(whoami)|g" ~/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 
 echo 'Ещё раз откроем Zotero для финальных шрихов, закройте его как уже, наверное, привыкли ;)'
@@ -167,7 +167,7 @@ echo 'Вишенка на торте (Citation key)...'
 sed -i '' -e "s|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":true|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":false|g" ~/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 
 echo 'Очистка временных файлов...'
-rm -rf $HOME/testroot
+rm -rf $HOME/.konspekt
 echo 'Удалён репозиторий с  шаблонными настройками Obsidian'
 rm -rf $HOME/bibtex.zip $HOME/zotmoov.zip
 echo 'Удалёны исходники плагинов Zotero'
