@@ -107,10 +107,11 @@ obsidian-cli set-default konspekt_pack
 sleep 1
 
 echo 'Настраиваю плагины Obsidian...'
-sed -i '' -e "s|/opt/homebrew/bin/tectonic|$tectonic_path|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
+sed -i '' -e "s|/usr/local/bin/tectonic|$tectonic_path|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
 sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
 sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
 sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc-reference-list/data.json
+sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc-pandoc-reference-list/data.json
 open -a Obsidian
 echo 'Сейчас откроется Obsidian, нажмите "Доверять автору" и закройте приложение через Command+Q'
 lsof -p $(pgrep -n Obsidian) +r 1 &> /dev/null
