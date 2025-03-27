@@ -112,10 +112,10 @@ sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/Documents/konspekt_p
 sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
 sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc-reference-list/data.json
 sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc-pandoc-reference-list/data.json
-#open -a Obsidian
-#echo 'Сейчас откроется Obsidian, нажмите "Доверять автору" и закройте приложение через Command+Q'
-#lsof -p $(pgrep -n Obsidian) +r 1 &> /dev/null
-#sleep 2
+open -a Obsidian
+echo 'Сейчас откроется Obsidian, нажмите "Доверять автору" и закройте приложение через Command+Q'
+lsof -p $(pgrep -n Obsidian) +r 1 &> /dev/null
+sleep 2
 
 ls -l /Applications |grep Zotero &> /dev/null
 if [ $? -ne 0 ]; then
