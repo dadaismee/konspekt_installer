@@ -187,7 +187,7 @@ sleep 2
 
 echo 'Попытка настройки отображения Citation key...'
 #sed -i '' -e "s|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":true|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":false|g" $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
-sed -i '' -e "S|true}}}|false}}}|g" 
+sed -i '' -e "S|true}}}|false}}}|g" $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/treePrefs.js
 
 echo 'Установка завершена, открываю Obsidian. Всего доброго!'
 open -a obsidian
