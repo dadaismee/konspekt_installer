@@ -57,6 +57,11 @@ if errorlevel 1 (
 
 rem set batchPath=%~dp0
 
+echo ###Установка Zettlr ...
+if not exist C:\Users\%username%\AppData\Local\Programs\Zettlr\Zettlr.exe (
+    winget install -e --id Zettlr.Zettlr --silent
+)
+
 echo ###Скачивание репозитория с настройками Obsidian и Zotero...
 curl.exe -o %USERPROFILE%\.konspekt\obstest.zip -L https://github.com/openmindead/obsidian-test/archive/refs/heads/main.zip
 tar -xf %USERPROFILE%\.konspekt\obstest.zip -C %USERPROFILE%\.konspekt
