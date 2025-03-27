@@ -157,7 +157,7 @@ echo 'Устанавливаю и настраиваю плагины Zotero...'
 zotero_profile_name=$(grep 'Path=Profiles/' $HOME/Library/Application\ Support/Zotero/profiles.ini | cut -d/ -f2-)
 mkdir -p /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions
 cp -R $HOME/.konspekt/zotmoov /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions/zotmoov@wileyy.com
-cp -R $HOME/.konspekt/zotmoov /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions/better-bibtex@iris-advies.com
+cp -R $HOME/.konspekt/bibtex /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions/better-bibtex@iris-advies.com
 #echo /Users/$USER/Documents/Zotero/zotmoov >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions/zotmoov@wileyy.com
 #echo /Users/$USER/Documents/Zotero/bibtex >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions/better-bibtex@iris-advies.com
 sed -i '' "/lastAppVersion/d" /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
@@ -187,7 +187,7 @@ sleep 2
 
 echo 'Попытка настройки отображения Citation key...'
 #sed -i '' -e "s|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":true|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":false|g" $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
-sed -i '' -e "S|true}}}|false}}}|g" $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/treePrefs.js
+sed -i '' -e "s|true}}}|false}}}|g" $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/treePrefs.json
 
 echo 'Установка завершена, открываю Obsidian. Всего доброго!'
 open -a obsidian
