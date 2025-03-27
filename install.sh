@@ -70,42 +70,47 @@ obcli_path=$(which obsidian-cli)
 
 echo 'Клонируем репозиторий с настройками Obsidian...'
 git clone https://github.com/dadaismee/konspekt-starter-pack.git $HOME/.konspekt
-mkdir -p ~/Library/Application\ Support/obsidian
-if [ ! -f ~/Library/Application\ Support/obsidian/obsidian.json ]; then
+mkdir -p $HOME/Library/Application\ Support/obsidian
+if [ ! -f $HOME/Library/Application\ Support/obsidian/obsidian.json ]; then
     echo "Конфиг Obsidian не найден. Используем нашу заготовку..."
-    cp $HOME/.konspekt/obsidian.json ~/Library/Application\ Support/obsidian/
-    sed -i '' -e "s|test|$(whoami)|g" ~/Library/Application\ Support/obsidian/obsidian.json
+    cp $HOME/.konspekt/obsidian.json $HOME/Library/Application\ Support/obsidian/
+    sed -i '' -e "s|test|$(whoami)|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
 else
-    if grep -q konspekt_pack ~/Library/Application\ Support/obsidian/obsidian.json; then
+    if grep -q konspekt_pack $HOME/Library/Application\ Support/obsidian/obsidian.json; then
         echo "Хранилище с таким именем уже существует"
         echo "Переимнуем его во избежание конфликтов"
         fdate=$(date +%Y%m%d-%H%M%S)
         mv $HOME/Library/Application\ Support/obsidian/obsidian.json "$HOME/Library/Application\ Support/obsidian/obsidian_$fdate.json"
-        cp $HOME/.konspekt/obsidian.json ~/Library/Application\ Support/obsidian/
-        sed -i '' -e "s|test|$(whoami)|g" ~/Library/Application\ Support/obsidian/obsidian.json
+        cp $HOME/.konspekt/obsidian.json $HOME/Library/Application\ Support/obsidian/
+        sed -i '' -e "s|test|$(whoami)|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
         echo "Старый конфиг хранилищ был переименован в obsidian_$fdate.json"
     else
         echo "Добавим новое хранилище Obsidian в существующий конфиг..."
-        sed -i '' -e "s|}}}|}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/Documents/konspekt_pack\",\"ts\":1739264225722,\"open\":true}}}|g" ~/Library/Application\ Support/obsidian/obsidian.json
-        sed -i '' -e "s|e}},|e}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/Documents/konspekt_pack\",\"ts\":1739264225722,\"open\":true}},|g" ~/Library/Application\ Support/obsidian/obsidian.json
+        sed -i '' -e "s|}}}|}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/Documents/konspekt_pack\",\"ts\":1739264225722,\"open\":true}}}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
+        sed -i '' -e "s|e}},|e}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/Documents/konspekt_pack\",\"ts\":1739264225722,\"open\":true}},|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
     fi
 fi
 
-if [ ! -d ~/Documents/konspekt_pack ]; then
-    cp -R $HOME/.konspekt/konspekt_pack ~/Documents
+if [ ! -d $HOME/Documents/konspekt_pack ]; then
+    cp -R $HOME/.konspekt/konspekt_pack $HOME/Documents
     echo "Файлы хранилища Obsidian скопированы"
 else
-    echo "Файлы хранилища Obsidian уже на месте"
+    echo "Файлы хранилища Obsidian уже на месте, сохраним их под другим именем..."
+    fdate=$(date +%Y%m%d-%H%M%S)
+    mv $HOME/Documents/konspekt_pack_$fdate
+    echo "Файлы хранилища с таким же названием были перемещены"
+    cp -R $HOME/.konspekt/konspekt_pack $HOME/Documents
+    echo "Файлы хранилища Obsidian скопированы"
 fi
 
 obsidian-cli set-default konspekt_pack
 sleep 1
 
 echo 'Настраиваю плагины Obsidian...'
-sed -i '' -e "s|/opt/homebrew/bin/tectonic|$tectonic_path|g" ~/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
-sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" ~/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
-sed -i '' -e "s|/Users/test|/Users/$USER|g" ~/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
-sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" ~/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc-reference-list/data.json
+sed -i '' -e "s|/opt/homebrew/bin/tectonic|$tectonic_path|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
+sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
+sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
+sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc-reference-list/data.json
 open -a Obsidian
 echo 'Сейчас откроется Obsidian, нажмите "Доверять автору" и закройте приложение через Command+Q'
 lsof -p $(pgrep -n Obsidian) +r 1 &> /dev/null
@@ -120,20 +125,20 @@ else
 fi
 
 echo 'Загрузка плагинов Zotero...'
-mkdir -p ~/Documents/Zotero
+mkdir -p $HOME/Documents/Zotero
 curl -o $HOME/zotmoov.zip -LC - https://github.com/wileyyugioh/zotmoov/releases/download/1.2.18/zotmoov-1.2.18-fx.xpi
 unzip $HOME/zotmoov.zip -d ~/Documents/Zotero/zotmoov &> /dev/null
 curl -o $HOME/bibtex.zip -LC - https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi
 unzip $HOME/bibtex.zip -d ~/Documents/Zotero/bibtex &> /dev/null
 
-if [ ! -f ~/Library/Application\ Support/Zotero/profiles.ini ]; then
+if [ ! -f $HOME/Library/Application\ Support/Zotero/profiles.ini ]; then
     echo 'Сейчас откроется окно Zotero, выйдите из него через Command+Q'
     open -a Zotero
     lsof -p $(pgrep -n zotero) +r 1 &>/dev/null
     sleep 1
 fi
 
-if [ ! -f ~/Zotero/zotero.sqlite ]; then
+if [ ! -f $HOME/Zotero/zotero.sqlite ]; then
     echo "Копирую библиотеку Zotero..."
     cp $HOME/.konspekt/zotero.sqlite /Users/$USER/Zotero/zotero.sqlite
 else
@@ -144,7 +149,7 @@ else
 fi
 
 echo 'Устанавливаю и настраиваю плагины Zotero...'
-zotero_profile_name=$(grep 'Path=Profiles/' ~/Library/Application\ Support/Zotero/profiles.ini | cut -d/ -f2-)
+zotero_profile_name=$(grep 'Path=Profiles/' $HOME/Library/Application\ Support/Zotero/profiles.ini | cut -d/ -f2-)
 mkdir -p /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions
 
 echo /Users/$USER/Documents/Zotero/zotmoov >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions/zotmoov@wileyy.com
@@ -159,11 +164,11 @@ open -a Zotero
 lsof -p $(pgrep -n zotero) +r 1 &> /dev/null
 sleep 2
 echo 'Активирую плагины Zotero...'
-sed -i '' -e 's|active":false,"userDisabled":true|active":true,"userDisabled":false|g' ~/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions.json
+sed -i '' -e 's|active":false,"userDisabled":true|active":true,"userDisabled":false|g' $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions.json
 sleep 1
 echo 'Настраиваю авто-экспорт библиотеки Zotero...'
-cat $HOME/.konspekt/zotero.pref.js >> ~/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
-sed -i '' -e "s|testuser|$(whoami)|g" ~/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
+cat $HOME/.konspekt/zotero.pref.js >> $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
+sed -i '' -e "s|testuser|$(whoami)|g" $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 
 echo 'Ещё раз откроем Zotero для финальных шрихов, закройте его как уже, наверное, привыкли ;)'
 open -a Zotero
@@ -171,7 +176,7 @@ lsof -p $(pgrep -n zotero) +r 1 &> /dev/null
 sleep 2
 
 echo 'Вишенка на торте (Citation key)...'
-sed -i '' -e "s|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":true|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":false|g" ~/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
+sed -i '' -e "s|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":true|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":false|g" $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 
 echo 'Очистка временных файлов...'
 rm -rf $HOME/.konspekt
