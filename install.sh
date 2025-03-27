@@ -156,9 +156,10 @@ fi
 echo 'Устанавливаю и настраиваю плагины Zotero...'
 zotero_profile_name=$(grep 'Path=Profiles/' $HOME/Library/Application\ Support/Zotero/profiles.ini | cut -d/ -f2-)
 mkdir -p /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions
-
-echo /Users/$USER/Documents/Zotero/zotmoov >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions/zotmoov@wileyy.com
-echo /Users/$USER/Documents/Zotero/bibtex >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions/better-bibtex@iris-advies.com
+cp -R $HOME/.konspekt/zotmoov /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions/zotmoov@wileyy.com
+cp -R $HOME/.konspekt/zotmoov /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions/better-bibtex@iris-advies.com
+#echo /Users/$USER/Documents/Zotero/zotmoov >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions/zotmoov@wileyy.com
+#echo /Users/$USER/Documents/Zotero/bibtex >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions/better-bibtex@iris-advies.com
 sed -i '' "/lastAppVersion/d" /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 sed -i '' "/lastAppBuildId/d" /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 echo 'user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "auth.lower + year");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
