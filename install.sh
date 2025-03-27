@@ -146,8 +146,9 @@ if [ ! -f $HOME/Zotero/zotero.sqlite ]; then
     echo "Копирую библиотеку Zotero..."
     cp $HOME/.konspekt/zotero.sqlite /Users/$USER/Zotero/zotero.sqlite
 else
-    mv /Users/$USER/Zotero/zotero.sqlite /Users/$USER/Zotero/zotero.sqlite.original
-    echo "Существующая база Зотеро сохранена как ~/Zotero/zotero.sqlite.original. Вы можете восстановить её, если необходимо, удалив '.original' в названии этого файла."
+    fdate=$(date +%Y%m%d-%H%M%S)
+    mv /Users/$USER/Zotero/zotero.sqlite /Users/$USER/Zotero/zotero_$fdate.sqlite
+    echo "Существующая база Зотеро сохранена как ~/Zotero/zotero_$fdate.sqlite. Вы можете восстановить её, если необходимо, удалив _$fdate в названии этого файла."
     cp $HOME/.konspekt/zotero.sqlite /Users/$USER/Zotero/zotero.sqlite
     echo "Новая библиотека Зотеро установлена вместо существующей"
 fi
