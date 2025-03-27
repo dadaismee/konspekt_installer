@@ -78,9 +78,16 @@ if [ ! -f ~/Library/Application\ Support/obsidian/obsidian.json ]; then
 else
     if grep -q konspekt_pack ~/Library/Application\ Support/obsidian/obsidian.json; then
         echo "Хранилище с таким именем уже существует"
+        echo "Переимнуем его во избежание конфликтов"
+        fdate=$(date +%Y%m%d-%H%M%S)
+        mv $HOME/Library/Application\ Support/obsidian/obsidian.json "$HOME/Library/Application\ Support/obsidian/obsidian_$fdate.json"
+        cp $HOME/.konspekt/obsidian.json ~/Library/Application\ Support/obsidian/
+        sed -i '' -e "s|test|$(whoami)|g" ~/Library/Application\ Support/obsidian/obsidian.json
+        echo "Старый конфиг хранилищ был переименован в obsidian_$fdate.json"
     else
         echo "Добавим новое хранилище Obsidian в существующий конфиг..."
         sed -i '' -e "s|}}}|}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/Documents/konspekt_pack\",\"ts\":1739264225722,\"open\":true}}}|g" ~/Library/Application\ Support/obsidian/obsidian.json
+        sed -i '' -e "s|e}},|e}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/Documents/konspekt_pack\",\"ts\":1739264225722,\"open\":true}},|g" ~/Library/Application\ Support/obsidian/obsidian.json
     fi
 fi
 
