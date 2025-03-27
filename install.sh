@@ -126,11 +126,14 @@ else
 fi
 
 echo 'Загрузка плагинов Zotero...'
-mkdir -p $HOME/Documents/Zotero
-curl -o $HOME/zotmoov.zip -LC - https://github.com/wileyyugioh/zotmoov/releases/download/1.2.18/zotmoov-1.2.18-fx.xpi
-unzip $HOME/zotmoov.zip -d ~/Documents/Zotero/zotmoov &> /dev/null
-curl -o $HOME/bibtex.zip -LC - https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi
-unzip $HOME/bibtex.zip -d ~/Documents/Zotero/bibtex &> /dev/null
+curl -o $HOME/.konspekt/zotmoov.zip -LC - https://github.com/wileyyugioh/zotmoov/releases/download/1.2.18/zotmoov-1.2.18-fx.xpi
+mkdir -p $HOME/.konspekt/zotmoov
+unzip $HOME/.konspekt/zotmoov.zip -d ~/.konspekt/zotmoov &> /dev/null
+echo 'Загрузка плагина zotmoov завершена...'
+curl -o $HOME/.konspekt/bibtex.zip -LC - https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi
+mkdir -p $HOME/.konspekt/bibtex
+unzip $HOME/.konspekt/bibtex.zip -d ~/.konspekt/bibtex &> /dev/null
+echo 'Загрузка плагина bibtex завершена...'
 
 if [ ! -f $HOME/Library/Application\ Support/Zotero/profiles.ini ]; then
     echo 'Сейчас откроется окно Zotero, выйдите из него через Command+Q'
