@@ -176,19 +176,18 @@ echo 'Настраиваю авто-экспорт библиотеки Zotero..
 cat $HOME/.konspekt/zotero.pref.js >> $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 sed -i '' -e "s|testuser|$(whoami)|g" $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 
-echo 'Ещё раз откроем Zotero для финальных шрихов, закройте его как уже, наверное, привыкли ;)'
+echo 'Очистка временных файлов...'
+rm -rf $HOME/.konspekt
+echo 'Очистка временных файлов завершена'
+
+echo 'Ещё раз откроем Zotero для финальных шрихов, закройте его через секунд 10'
 open -a Zotero
 lsof -p $(pgrep -n zotero) +r 1 &> /dev/null
 sleep 2
 
-echo 'Вишенка на торте (Citation key)...'
-sed -i '' -e "s|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":true|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":false|g" $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
+echo 'Попытка настройки отображения Citation key...'
+#sed -i '' -e "s|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":true|better-bibtex-iris-advies-com-citationKey","ordinal":33,"hidden":false|g" $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
+sed -i '' -e "S|true}}}|false}}}|g" 
 
-echo 'Очистка временных файлов...'
-rm -rf $HOME/.konspekt
-echo 'Удалён репозиторий с  шаблонными настройками Obsidian'
-rm -rf $HOME/bibtex.zip $HOME/zotmoov.zip
-echo 'Удалёны исходники плагинов Zotero'
-echo 'Очистка временных файлов завершена'
 echo 'Установка завершена, открываю Obsidian. Всего доброго!'
 open -a obsidian
