@@ -134,10 +134,11 @@ powershell "start-process -wait 'C:\Program Files\Zotero\zotero.exe'"
 if not exist %userprofile%\Zotero\zotero.sqlite (
     echo Копирую библиотеку Zotero...
 	copy %userprofile%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
-powershell "Rename-Item $env:USERPROFILE\Zotero\zotero.sqlite $env:USERPROFILE\Zotero\zotero.sqlite.original"
-echo Существующая база Зотеро сохранена как ~/Zotero/zotero.sqlite.original. Вы можете восстановить её, если необходимо, удалив '.original' в названии этого файла.
-copy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
-echo Новая библиотека Зотеро установлена вместо существующей
+) else (
+	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\Zotero\zotero.sqlite $env:USERPROFILE\Zotero\zotero_$fdate.sqlite; echo 'Существующая база Зотеро сохранена как '~/Zotero/zotero_$fdate.sqlite"
+	copy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
+	echo Новая библиотека Зотеро установлена вместо существующей
+)
 
 echo Устанавливаю и настраиваю плагины Zotero...
 for /f "tokens=1,2delims=/" %%i in ('powershell "Get-Content $env:APPDATA\Zotero\Zotero\profiles.ini | Select-String -Pattern Path"') do set zotero_profile_name=%%j
