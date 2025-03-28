@@ -80,7 +80,7 @@ if not exist %appdata%\obsidian\obsidian.json (
 	>nul find "konspekt_pack" %appdata%\obsidian\obsidian.json && (
 		echo Хранилище с таким именем уже существует
 		echo Переименуем текущее хранилище во избежание...
-		powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; "Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian_$fdate.json; echo 'Старый конфиг хранилища был переименован в 'obsidian_$fdate.json"
+		powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian_$fdate.json; echo 'Старый конфиг хранилища был переименован в 'obsidian_$fdate.json"
 		copy %USERPROFILE%\.konspekt\obsidian-test-main\obsidian_win.json %appdata%\obsidian\obsidian.json
 		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 	) || (
@@ -96,7 +96,11 @@ if not exist C:\Users\%username%\Documents\konspekt_pack (
 	xcopy /eqy %USERPROFILE%\.konspekt\obsidian-test-main\konspekt_pack C:\Users\%username%\Documents\konspekt_pack
     echo Файлы хранилища Obsidian скопированы
 ) else (
-    echo Файлы хранилища Obsidian уже на месте
+    echo Файлы хранилища Obsidian уже на месте, сохраним их под другим именем...
+	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\Documents\konspekt_pack $env:USERPROFILE\Documents\konspekt_pack_$fdate; Write-Output Файлы хранилища с таким же названием были перемещены"
+	md C:\Users\%username%\Documents\konspekt_pack 2>nul
+	xcopy /eqy %USERPROFILE%\.konspekt\obsidian-test-main\konspekt_pack C:\Users\%username%\Documents\konspekt_pack
+    echo Файлы хранилища Obsidian скопированы
 )
 
 powershell "obsidian-cli set-default konspekt_pack"
