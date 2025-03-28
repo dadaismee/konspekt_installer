@@ -80,7 +80,7 @@ if not exist %appdata%\obsidian\obsidian.json (
 	>nul find "konspekt_pack" %appdata%\obsidian\obsidian.json && (
 		echo Хранилище с таким именем уже существует
 		echo Переименуем текущее хранилище во избежание...
-		powershell "$fdate = Get-Date -format 'yyyyMMdd_hhmmss'; "Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian_$fdate.json; echo 'Старый конфиг хранилища был переименован в 'obsidian_$fdate.json"
+		powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; "Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian_$fdate.json; echo 'Старый конфиг хранилища был переименован в 'obsidian_$fdate.json"
 		copy %USERPROFILE%\.konspekt\obsidian-test-main\obsidian_win.json %appdata%\obsidian\obsidian.json
 		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 	) || (
