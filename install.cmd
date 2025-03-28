@@ -159,7 +159,7 @@ rd /s /q %USERPROFILE%\.konspekt
 del prefs.js
 echo Очистка временных файлов завершена
 
-echo Ещё раз откроем Zotero для финальных шрихов, закройте его через секунд 10
+echo Ещё раз откроем Zotero для финальных штрихов, закройте его через секунд 10
 timeout 2
 powershell "start-process -wait 'C:\Program Files\Zotero\zotero.exe'"
 
