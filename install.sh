@@ -97,7 +97,7 @@ if [ ! -d $HOME/Documents/konspekt_pack ]; then
 else
     echo "Файлы хранилища Obsidian уже на месте, сохраним их под другим именем..."
     fdate=$(date +%Y%m%d-%H%M%S)
-    mv $HOME/Documents/konspekt_pack_$fdate
+    mv $HOME/Documents/konspekt_pack $HOME/Documents/konspekt_pack_$fdate
     echo "Файлы хранилища с таким же названием были перемещены"
     cp -R $HOME/.konspekt/konspekt_pack $HOME/Documents
     echo "Файлы хранилища Obsidian скопированы"
