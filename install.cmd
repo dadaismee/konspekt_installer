@@ -103,7 +103,7 @@ if not exist C:\Users\%username%\Documents\konspekt_pack (
     echo Файлы хранилища Obsidian скопированы
 )
 
-powershell "obsidian-cli set-default konspekt_pack"
+%USERPROFILE%\scoop\shims\obsidian-cli set-default konspekt_pack
 timeout 1
 
 echo Настраиваю плагины Obsidian...
