@@ -63,8 +63,8 @@ if not exist C:\Users\%username%\AppData\Local\Programs\Zettlr\Zettlr.exe (
 )
 
 echo ###Скачивание репозитория с настройками Obsidian и Zotero...
-curl.exe -o %USERPROFILE%\.konspekt\obstest.zip -L https://github.com/openmindead/obsidian-test/archive/refs/heads/main.zip
-tar -xf %USERPROFILE%\.konspekt\obstest.zip -C %USERPROFILE%\.konspekt
+curl.exe -o %USERPROFILE%\.konspekt\konspekt.zip -L https://github.com/dadaismee/konspekt-starter-pack/archive/refs/heads/main.zip
+tar -xf %USERPROFILE%\.konspekt\konspekt.zip -C %USERPROFILE%\.konspekt
 
 echo ###Установка Obsidian ...
 if not exist C:\Users\%username%\AppData\Local\Programs\Obsidian\Obsidian.exe (
@@ -74,14 +74,14 @@ md %appdata%\obsidian 2>nul
 
 if not exist %appdata%\obsidian\obsidian.json (
     echo Конфиг Obsidian не найден. Используем нашу заготовку...
-	copy %USERPROFILE%\.konspekt\obsidian-test-main\obsidian_win.json %appdata%\obsidian\obsidian.json
+	copy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
 	powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 ) else (
 	>nul find "konspekt_pack" %appdata%\obsidian\obsidian.json && (
 		echo Хранилище с таким именем уже существует
 		echo Переименуем текущее хранилище во избежание...
 		powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian_$fdate.json; echo 'Старый конфиг хранилища был переименован в 'obsidian_$fdate.json"
-		copy %USERPROFILE%\.konspekt\obsidian-test-main\obsidian_win.json %appdata%\obsidian\obsidian.json
+		copy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
 		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 	) || (
 		echo Добавим новое хранилище Obsidian в существующий конфиг...
@@ -93,13 +93,13 @@ if not exist %appdata%\obsidian\obsidian.json (
 
 if not exist C:\Users\%username%\Documents\konspekt_pack (
     md C:\Users\%username%\Documents\konspekt_pack 2>nul
-	xcopy /eqy %USERPROFILE%\.konspekt\obsidian-test-main\konspekt_pack C:\Users\%username%\Documents\konspekt_pack
+	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\konspekt_pack C:\Users\%username%\Documents\konspekt_pack
     echo Файлы хранилища Obsidian скопированы
 ) else (
     echo Файлы хранилища Obsidian уже на месте, сохраним их под другим именем...
 	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\Documents\konspekt_pack $env:USERPROFILE\Documents\konspekt_pack_$fdate; Write-Output Файлы хранилища с таким же названием были перемещены"
 	md C:\Users\%username%\Documents\konspekt_pack 2>nul
-	xcopy /eqy %USERPROFILE%\.konspekt\obsidian-test-main\konspekt_pack C:\Users\%username%\Documents\konspekt_pack
+	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\konspekt_pack C:\Users\%username%\Documents\konspekt_pack
     echo Файлы хранилища Obsidian скопированы
 )
 
@@ -107,9 +107,9 @@ if not exist C:\Users\%username%\Documents\konspekt_pack (
 timeout 1
 
 echo Настраиваю плагины Obsidian...
-copy /Y %USERPROFILE%\.konspekt\obsidian-test-main\obsidian-pandoc_data_win.json C:\Users\%username%\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json
+copy /Y %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian-pandoc_data_win.json C:\Users\%username%\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json
 powershell.exe "(Get-Content C:\Users\$env:USERNAME\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII C:\Users\$env:USERNAME\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json"
-copy /Y %USERPROFILE%\.konspekt\obsidian-test-main\obsidian-pandoc-reference-list_data_win.json C:\Users\%username%\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json
+copy /Y %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian-pandoc-reference-list_data_win.json C:\Users\%username%\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json
 powershell.exe "(Get-Content C:\Users\$env:USERNAME\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII C:\Users\$env:USERNAME\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json"
 
 echo Сейчас откроется Obsidian, нажмите "Доверять автору" и закройте приложение
@@ -130,9 +130,13 @@ echo ###Загрузка плагина zotmoov завершена...
 echo Сейчас откроется окно Zotero, закройте его через одну-две секунды
 timeout 2
 powershell "start-process -wait 'C:\Program Files\Zotero\zotero.exe'"
+
+if not exist %userprofile%\Zotero\zotero.sqlite (
+    echo Копирую библиотеку Zotero...
+	copy %userprofile%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
 powershell "Rename-Item $env:USERPROFILE\Zotero\zotero.sqlite $env:USERPROFILE\Zotero\zotero.sqlite.original"
 echo Существующая база Зотеро сохранена как ~/Zotero/zotero.sqlite.original. Вы можете восстановить её, если необходимо, удалив '.original' в названии этого файла.
-copy %USERPROFILE%\.konspekt\obsidian-test-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
+copy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
 echo Новая библиотека Зотеро установлена вместо существующей
 
 echo Устанавливаю и настраиваю плагины Zotero...
@@ -155,7 +159,7 @@ echo Активирую плагины Zotero...
 powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions.json) -replace 'active\":false,\"userDisabled\":true','active\":true,\"userDisabled\":false' | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions.json"
 
 echo Настраиваю авто-экспорт библиотеки Zotero...
-type %USERPROFILE%\.konspekt\obsidian-test-main\zotero.pref_win.js >> %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js
+type %USERPROFILE%\.konspekt\konspekt-starter-pack-main\zotero.pref_win.js >> %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js
 powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js"
 
 
