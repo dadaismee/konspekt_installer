@@ -86,6 +86,7 @@ if not exist %appdata%\obsidian\obsidian.json (
 	) || (
 		echo Добавим новое хранилище Obsidian в существующий конфиг...
 		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace '}}}','},\"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\Documents\\konspekt_pack\",\"ts\":1739264225722,\"open\":true}}}' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'e}},','e}, \"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\Documents\\konspekt_pack\",\"ts\":1739264225722,\"open\":true}},' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 	)
 )
