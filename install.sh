@@ -1,7 +1,5 @@
 #!/bin/zsh
 
-echo "Начало работы скрипта, нажмите любую кнопку... "; read -k
-
 # Install Homebrew if not installed
 echo "Проверяем, установлен ли Homebrew..."
 if ! command -v brew &> /dev/null; then
