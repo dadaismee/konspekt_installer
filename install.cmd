@@ -97,7 +97,7 @@ if not exist C:\Users\%username%\Documents\konspekt_pack (
     echo Файлы хранилища Obsidian скопированы
 ) else (
     echo Файлы хранилища Obsidian уже на месте, сохраним их под другим именем...
-	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\Documents\konspekt_pack $env:USERPROFILE\Documents\konspekt_pack_$fdate; Write-Output Файлы хранилища с таким же названием были перемещены"
+	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\Documents\konspekt_pack $env:USERPROFILE\Documents\konspekt_pack_$fdate; Write-Output 'Файлы хранилища с таким же названием были перемещены'"
 	md C:\Users\%username%\Documents\konspekt_pack 2>nul
 	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\konspekt_pack C:\Users\%username%\Documents\konspekt_pack
     echo Файлы хранилища Obsidian скопированы
