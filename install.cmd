@@ -135,7 +135,7 @@ if not exist %userprofile%\Zotero\zotero.sqlite (
     echo Копирую библиотеку Zotero...
 	copy %userprofile%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
 ) else (
-	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\Zotero\zotero.sqlite $env:USERPROFILE\Zotero\zotero_$fdate.sqlite; echo 'Существующая база Зотеро сохранена как '~/Zotero/zotero_$fdate.sqlite"
+	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\Zotero\zotero.sqlite $env:USERPROFILE\Zotero\zotero_$fdate.sqlite; $oldname1 = '      Существующая база Зотеро сохранена как ~/Zotero/zotero_'; $oldname2 = '.sqlite'; Write-Output $oldname1$fdate$oldname2"
 	copy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
 	echo Новая библиотека Зотеро установлена вместо существующей
 )
