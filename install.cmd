@@ -120,33 +120,41 @@ echo ###Установка Zotero ...
 if not exist "C:\Program Files\Zotero\zotero.exe" winget install -e --id DigitalScholar.Zotero --silent
 
 echo ###Загрузка плагинов Зотеро
-curl.exe -o %USERPROFILE%\.konspekt\bibtex.zip -L https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi
-md %USERPROFILE%\.konspekt\bibtex 2>nul & tar -xf %USERPROFILE%\.konspekt\bibtex.zip -C %USERPROFILE%\.konspekt\bibtex
-echo ###Загрузка плагина better-bibtex завершена...
-curl.exe -o %USERPROFILE%\.konspekt\zotmoov.zip -L https://github.com/wileyyugioh/zotmoov/releases/download/1.2.11/zotmoov-1.2.11-fx.xpi
-md %USERPROFILE%\.konspekt\zotmoov 2>nul & tar -xf %USERPROFILE%\.konspekt\zotmoov.zip -C %USERPROFILE%\.konspekt\zotmoov
-echo ###Загрузка плагина zotmoov завершена...
-
-echo Сейчас откроется окно Zotero, закройте его через одну-две секунды
-timeout 2
-powershell "start-process -wait 'C:\Program Files\Zotero\zotero.exe'"
+if not exist %userprofile%\.konspekt\bibtex.zip (
+	curl.exe -o %USERPROFILE%\.konspekt\bibtex.zip -L https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi
+	md %USERPROFILE%\.konspekt\bibtex 2>nul & tar -xf %USERPROFILE%\.konspekt\bibtex.zip -C %USERPROFILE%\.konspekt\bibtex
+	echo ###Загрузка плагина better-bibtex завершена...
+)
+if not exist %userprofile%\.konspekt\zotmoov.zip (
+	curl.exe -o %USERPROFILE%\.konspekt\zotmoov.zip -L https://github.com/wileyyugioh/zotmoov/releases/download/1.2.11/zotmoov-1.2.11-fx.xpi
+	md %USERPROFILE%\.konspekt\zotmoov 2>nul & tar -xf %USERPROFILE%\.konspekt\zotmoov.zip -C %USERPROFILE%\.konspekt\zotmoov
+	echo ###Загрузка плагина zotmoov завершена...
+)
 
 if not exist %userprofile%\Zotero\zotero.sqlite (
-    echo Копирую библиотеку Zotero...
-	copy %userprofile%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
+    rem echo Копирую библиотеку Zotero...
+	rem copy %userprofile%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
+	echo Сейчас откроется окно Zotero, закройте его через одну-две секунды
+	timeout 2
+	powershell "start-process -wait 'C:\Program Files\Zotero\zotero.exe'"
 ) else (
-	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\Zotero\zotero.sqlite $env:USERPROFILE\Zotero\zotero_$fdate.sqlite; $oldname1 = '      Существующая база Зотеро сохранена как ~/Zotero/zotero_'; $oldname2 = '.sqlite'; Write-Output $oldname1$fdate$oldname2"
-	copy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
-	echo Новая библиотека Зотеро установлена вместо существующей
+	rem powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\Zotero\zotero.sqlite $env:USERPROFILE\Zotero\zotero_$fdate.sqlite; $oldname1 = '      Существующая база Зотеро сохранена как ~/Zotero/zotero_'; $oldname2 = '.sqlite'; Write-Output $oldname1$fdate$oldname2"
+	rem copy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
+	rem echo Новая библиотека Зотеро установлена вместо существующей
 )
 
 echo Устанавливаю и настраиваю плагины Zotero...
 for /f "tokens=1,2delims=/" %%i in ('powershell "Get-Content $env:APPDATA\Zotero\Zotero\profiles.ini | Select-String -Pattern Path"') do set zotero_profile_name=%%j
 md %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions 2>nul
-md %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\better-bibtex@iris-advies.com 2>nul
-xcopy /eqy %USERPROFILE%\.konspekt\bibtex %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\better-bibtex@iris-advies.com
-md %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\zotmoov@wileyy.com 2>nul
-xcopy /eqy %USERPROFILE%\.konspekt\zotmoov %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\zotmoov@wileyy.com
+if not exist %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\better-bibtex@iris-advies.com (
+	md %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\better-bibtex@iris-advies.com 2>nul
+	xcopy /eqy %USERPROFILE%\.konspekt\bibtex %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\better-bibtex@iris-advies.com
+)
+if not exist %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\zotmoov@wileyy.com (
+	md %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\zotmoov@wileyy.com 2>nul
+	xcopy /eqy %USERPROFILE%\.konspekt\zotmoov %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\zotmoov@wileyy.com
+)
+
 type %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js | findstr /v lastAppVersion | findstr /v lastAppBuildId > prefs.js
 echo user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "auth.lower + year");>> prefs.js
 echo user_pref("extensions.zotero.translators.better-bibtex.citekeyFormatEditing", "auth.lower + year");>> prefs.js
