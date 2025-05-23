@@ -9,10 +9,10 @@ fi
 if [ ! -f /Users/$USER/.zprofiles ]; then
     echo >> /Users/$USER/.zprofile
 fi
+arch=$(sysctl -n machdep.cpu.brand_string |cut -w -f1)
 if ! grep 'brew shellenv' /Users/$USER/.zprofile &> /dev/null; then
-    echo 'eval "$(/usr/local/bin/brew shellenv)"' >> /Users/$USER/.zprofile
+    if [[ $arch = "Apple" ]]; then echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/$USER/.zprofile; else echo 'eval "$(/usr/local/bin/brew shellenv)"' >> /Users/$USER/.zprofile; fi
 fi
-eval "$(/usr/local/bin/brew shellenv)"
 source ~/.zprofile
 
 # Installing packages
