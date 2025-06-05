@@ -57,10 +57,10 @@ if errorlevel 1 (
 
 rem set batchPath=%~dp0
 
-echo ###Установка Zettlr ...
-if not exist C:\Users\%username%\AppData\Local\Programs\Zettlr\Zettlr.exe (
-    winget install -e --id Zettlr.Zettlr --silent
-)
+rem echo ###Установка Zettlr ...
+rem if not exist C:\Users\%username%\AppData\Local\Programs\Zettlr\Zettlr.exe (
+rem    winget install -e --id Zettlr.Zettlr --silent
+rem )
 
 echo ###Скачивание репозитория с настройками Obsidian и Zotero...
 curl.exe -o %USERPROFILE%\.konspekt\konspekt.zip -L https://github.com/dadaismee/konspekt-starter-pack/archive/refs/heads/main.zip

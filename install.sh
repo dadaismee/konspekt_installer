@@ -42,13 +42,13 @@ else
 fi
 echo $tectonic_path
 
-ls -l /Applications |grep Zettlr &> /dev/null
-if [ $? -ne 0 ]; then
-    echo 'Установка Zettlr...'
-    brew install --cask zettlr
-else
-    echo "Zettlr уже установлен."
-fi
+# ls -l /Applications |grep Zettlr &> /dev/null
+# if [ $? -ne 0 ]; then
+#    echo 'Установка Zettlr...'
+#    brew install --cask zettlr
+# else
+#    echo "Zettlr уже установлен."
+# fi
 
 ls -l /Applications |grep Obsidian &> /dev/null
 if [ $? -ne 0 ]; then
