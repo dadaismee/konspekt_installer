@@ -81,7 +81,7 @@ else
         echo "Хранилище Obsidian с именем konspekt_pack уже существует"
         echo "Переименуем его во избежание конфликтов"
         fdate=$(date +%Y%m%d-%H%M%S)
-        mv $HOME/Library/Application\ Support/obsidian/obsidian.json "$HOME/Library/Application\ Support/obsidian/obsidian_$fdate.json"
+        mv $HOME/Library/Application\ Support/obsidian/obsidian.json $HOME/Library/Application\ Support/obsidian/obsidian_$fdate.json
         cp $HOME/.konspekt/obsidian.json $HOME/Library/Application\ Support/obsidian/
         sed -i '' -e "s|test|$(whoami)|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
         echo "Старый конфиг хранилищ был переименован в obsidian_$fdate.json"
