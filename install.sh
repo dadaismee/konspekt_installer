@@ -78,8 +78,8 @@ if [ ! -f $HOME/Library/Application\ Support/obsidian/obsidian.json ]; then
     sed -i '' -e "s|test|$(whoami)|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
 else
     if grep -q konspekt_pack $HOME/Library/Application\ Support/obsidian/obsidian.json; then
-        echo "Хранилище с таким именем уже существует"
-        echo "Переимнуем его во избежание конфликтов"
+        echo "Хранилище Obsidian с именем konspekt_pack уже существует"
+        echo "Переименуем его во избежание конфликтов"
         fdate=$(date +%Y%m%d-%H%M%S)
         mv $HOME/Library/Application\ Support/obsidian/obsidian.json "$HOME/Library/Application\ Support/obsidian/obsidian_$fdate.json"
         cp $HOME/.konspekt/obsidian.json $HOME/Library/Application\ Support/obsidian/
