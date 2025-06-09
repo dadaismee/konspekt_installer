@@ -1,10 +1,11 @@
 #!/bin/zsh
 
-bold=$(tput bold)
-normal=$(tput sgr0)
+# bold=$(tput bold)
+# normal=$(tput sgr0)
 
 # Install Homebrew if not installed
-echo "${bold}Проверяем, установлен ли Homebrew..."
+# echo "${bold}Проверяем, установлен ли Homebrew..."
+echo "Проверяем, установлен ли Homebrew..."
 if ! command -v brew &> /dev/null; then
     echo "Homebrew не найден. Устанавливаем..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -87,20 +88,20 @@ else
         echo "Старый конфиг хранилищ был переименован в obsidian_$fdate.json"
     else
         echo "Добавим новое хранилище Obsidian в существующий конфиг..."
-        sed -i '' -e "s|}}}|}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/Documents/konspekt_pack\",\"ts\":1739264225722,\"open\":true}}}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
-        sed -i '' -e "s|e}},|e}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/Documents/konspekt_pack\",\"ts\":1739264225722,\"open\":true}},|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
+        sed -i '' -e "s|}}}|}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/konspekt_pack\",\"ts\":1739264225722,\"open\":true}}}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
+        sed -i '' -e "s|e}},|e}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/konspekt_pack\",\"ts\":1739264225722,\"open\":true}},|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
     fi
 fi
 
-if [ ! -d $HOME/Documents/konspekt_pack ]; then
-    cp -R $HOME/.konspekt/konspekt_pack $HOME/Documents
+if [ ! -d $HOME/konspekt_pack ]; then
+    cp -R $HOME/.konspekt/konspekt_pack $HOME
     echo "Файлы хранилища Obsidian скопированы"
 else
     echo "Файлы хранилища Obsidian уже на месте, сохраним их под другим именем..."
     fdate=$(date +%Y%m%d-%H%M%S)
-    mv $HOME/Documents/konspekt_pack $HOME/Documents/konspekt_pack_$fdate
+    mv $HOME/konspekt_pack $HOME/konspekt_pack_$fdate
     echo "Файлы хранилища с таким же названием были перемещены"
-    cp -R $HOME/.konspekt/konspekt_pack $HOME/Documents
+    cp -R $HOME/.konspekt/konspekt_pack $HOME
     echo "Файлы хранилища Obsidian скопированы"
 fi
 
@@ -108,11 +109,11 @@ obsidian-cli set-default konspekt_pack
 sleep 1
 
 echo 'Настраиваю плагины Obsidian...'
-sed -i '' -e "s|/usr/local/bin/tectonic|$tectonic_path|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
-sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
-sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
-sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc-reference-list/data.json
-sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/Documents/konspekt_pack/.obsidian/plugins/obsidian-pandoc-reference-list/data.json
+sed -i '' -e "s|/usr/local/bin/tectonic|$tectonic_path|g" $HOME/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
+sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
+sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
+sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/konspekt_pack/.obsidian/plugins/obsidian-pandoc-reference-list/data.json
+sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/konspekt_pack/.obsidian/plugins/obsidian-pandoc-reference-list/data.json
 
 open -a Obsidian
 echo 'Сейчас откроется Obsidian, нажмите "Доверять автору" и закройте приложение через Command+Q'
@@ -166,7 +167,7 @@ sed -i '' "/lastAppVersion/d" /Users/$USER/Library/Application\ Support/Zotero/P
 sed -i '' "/lastAppBuildId/d" /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 echo 'user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "auth.lower + year");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 echo 'user_pref("extensions.zotero.translators.better-bibtex.citekeyFormatEditing", "auth.lower + year");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
-echo 'user_pref("extensions.zotmoov.dst_dir", "/Users/'$USER'/Documents/konspekt_pack/07 service/literature PDF");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
+echo 'user_pref("extensions.zotmoov.dst_dir", "/Users/'$USER'/konspekt_pack/07 service/literature PDF");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 echo 'Окно Zotero откроется для установки плагинов, выйдите из него через Command+Q'
 open -a Zotero
 lsof -p $(pgrep -n zotero) +r 1 &> /dev/null
