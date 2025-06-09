@@ -94,21 +94,21 @@ if not exist %appdata%\obsidian\obsidian.json (
 		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 	) || (
 		echo Добавим новое хранилище Obsidian в существующий конфиг...
-		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace '}}}','},\"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\Documents\\konspekt_pack\",\"ts\":1739264225722,\"open\":true}}}' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
-		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'e}},','e}, \"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\Documents\\konspekt_pack\",\"ts\":1739264225722,\"open\":true}},' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace '}}}','},\"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\konspekt_pack\",\"ts\":1739264225722,\"open\":true}}}' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'e}},','e}, \"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\konspekt_pack\",\"ts\":1739264225722,\"open\":true}},' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 	)
 )
 
-if not exist C:\Users\%username%\Documents\konspekt_pack (
-    md C:\Users\%username%\Documents\konspekt_pack 2>nul
-	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\konspekt_pack C:\Users\%username%\Documents\konspekt_pack
+if not exist C:\Users\%username%\konspekt_pack (
+    md C:\Users\%username%\konspekt_pack 2>nul
+	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\konspekt_pack C:\Users\%username%\konspekt_pack
     echo Файлы хранилища Obsidian скопированы
 ) else (
     echo Файлы хранилища Obsidian уже на месте, сохраним их под другим именем...
-	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\Documents\konspekt_pack $env:USERPROFILE\Documents\konspekt_pack_$fdate; Write-Output 'Файлы хранилища с таким же названием были перемещены'"
-	md C:\Users\%username%\Documents\konspekt_pack 2>nul
-	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\konspekt_pack C:\Users\%username%\Documents\konspekt_pack
+	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\konspekt_pack $env:USERPROFILE\konspekt_pack_$fdate; Write-Output 'Файлы хранилища с таким же названием были перемещены'"
+	md C:\Users\%username%\konspekt_pack 2>nul
+	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\konspekt_pack C:\Users\%username%\konspekt_pack
     echo Файлы хранилища Obsidian скопированы
 )
 
@@ -117,10 +117,10 @@ powershell "obsidian-cli set-default konspekt_pack"
 timeout 1
 
 echo Настраиваю плагины Obsidian...
-copy /Y %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian-pandoc_data_win.json C:\Users\%username%\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json
-powershell.exe "(Get-Content C:\Users\$env:USERNAME\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII C:\Users\$env:USERNAME\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json"
-copy /Y %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian-pandoc-reference-list_data_win.json C:\Users\%username%\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json
-powershell.exe "(Get-Content C:\Users\$env:USERNAME\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII C:\Users\$env:USERNAME\Documents\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json"
+copy /Y %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian-pandoc_data_win.json C:\Users\%username%\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json
+powershell.exe "(Get-Content C:\Users\$env:USERNAME\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII C:\Users\$env:USERNAME\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json"
+copy /Y %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian-pandoc-reference-list_data_win.json C:\Users\%username%\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json
+powershell.exe "(Get-Content C:\Users\$env:USERNAME\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII C:\Users\$env:USERNAME\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json"
 
 echo Сейчас откроется Obsidian, нажмите "Доверять автору" и закройте приложение
 timeout 2
@@ -168,7 +168,7 @@ if not exist %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\z
 type %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js | findstr /v lastAppVersion | findstr /v lastAppBuildId > prefs.js
 echo user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "auth.lower + year");>> prefs.js
 echo user_pref("extensions.zotero.translators.better-bibtex.citekeyFormatEditing", "auth.lower + year");>> prefs.js
-echo user_pref("extensions.zotmoov.dst_dir", "C:\\Users\\%USERNAME%\\Documents\\konspekt_pack\\07 service\\literature PDF");>> prefs.js
+echo user_pref("extensions.zotmoov.dst_dir", "C:\\Users\\%USERNAME%\\konspekt_pack\\07 service\\literature PDF");>> prefs.js
 copy /y prefs.js %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js
 
 echo Сейчас для установки плагинов откроется окно Zotero, выйдите из него через одну-две секунды
