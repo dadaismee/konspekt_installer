@@ -15,8 +15,6 @@ IF ERRORLEVEL 1 (
     ECHO Winget найден, отлично...
 )
 
-powershell.exe Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force 2>nul
-
 echo ###Посмотрим, установлен ли Scoop...
 where /q scoop
 IF ERRORLEVEL 1 (
