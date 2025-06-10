@@ -79,6 +79,18 @@ if not exist C:\Users\%username%\AppData\Local\Programs\Obsidian\Obsidian.exe (
 )
 md %appdata%\obsidian 2>nul
 
+if not exist C:\Users\%username%\konspekt_pack (
+    md C:\Users\%username%\konspekt_pack 2>nul
+	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\konspekt_pack C:\Users\%username%\konspekt_pack
+    echo Файлы хранилища Obsidian скопированы
+) else (
+    echo Файлы хранилища Obsidian уже на месте, сохраним их под другим именем...
+	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\konspekt_pack $env:USERPROFILE\konspekt_pack_$fdate; Write-Output 'Файлы хранилища с таким же названием были перемещены'"
+	md C:\Users\%username%\konspekt_pack 2>nul
+	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\konspekt_pack C:\Users\%username%\konspekt_pack
+    echo Файлы хранилища Obsidian скопированы
+)
+
 if not exist %appdata%\obsidian\obsidian.json (
     echo Конфиг Obsidian не найден. Используем нашу заготовку...
 	copy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
@@ -96,18 +108,6 @@ if not exist %appdata%\obsidian\obsidian.json (
 		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'e}},','e}, \"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\konspekt_pack\",\"ts\":1739264225722,\"open\":true}},' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 	)
-)
-
-if not exist C:\Users\%username%\konspekt_pack (
-    md C:\Users\%username%\konspekt_pack 2>nul
-	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\konspekt_pack C:\Users\%username%\konspekt_pack
-    echo Файлы хранилища Obsidian скопированы
-) else (
-    echo Файлы хранилища Obsidian уже на месте, сохраним их под другим именем...
-	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\konspekt_pack $env:USERPROFILE\konspekt_pack_$fdate; Write-Output 'Файлы хранилища с таким же названием были перемещены'"
-	md C:\Users\%username%\konspekt_pack 2>nul
-	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\konspekt_pack C:\Users\%username%\konspekt_pack
-    echo Файлы хранилища Obsidian скопированы
 )
 
 rem %USERPROFILE%\scoop\shims\obsidian-cli set-default konspekt_pack
