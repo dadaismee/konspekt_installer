@@ -28,7 +28,7 @@ IF ERRORLEVEL 1 (
 )
 
 echo ###Ищем Git...
-where /q scoop
+where /q git
 IF ERRORLEVEL 1 (
     ECHO Git отсутствует. Он тоже нужен, установим его сейчас...
 	powershell.exe "scoop install git"
