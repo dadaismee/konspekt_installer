@@ -3,6 +3,7 @@ chcp 65001
 echo Начало работы скрипта...
 pause
 
+powershell "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
 md %USERPROFILE%\.konspekt 2>nul
 
 echo ###Проверка наличия Winget в системе
