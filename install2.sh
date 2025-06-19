@@ -1,10 +1,7 @@
 #!/bin/zsh
 
-bold=$(tput bold)
-normal=$(tput sgr0)
-
 # Install Homebrew if not installed
-echo "${bold}Проверяем, установлен ли Homebrew..."
+echo "Проверяем, установлен ли Homebrew..."
 if ! command -v brew &> /dev/null; then
     echo "Homebrew не найден. Устанавливаем..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
