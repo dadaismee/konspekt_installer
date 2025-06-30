@@ -14,6 +14,8 @@ IF ERRORLEVEL 1 (
 	powershell.exe "Invoke-WebRequest -Uri https://github.com/microsoft/winget-cli/releases/download/v1.11.400/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle -OutFile C:\Users\$env:USERNAME\WinGet.msixbundle"
 	ECHO Если что-то пошло не так, вы можете установите его вручную из магазина приложений Windows, или скачать по ссылке "https://github.com/microsoft/winget-cli/releases/download/v1.11.400/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
 	set "PATH=%PATH%;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps"
+	powershell.exe "$env:Path += \";$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\""
+	powershell.exe "[Environment]::SetEnvironmentVariable(\"PATH\", \"$([Environment]::GetEnvironmentVariable(\"PATH\", \"User\"));$env:USERPROFILE\AppData\Local\Microsoft\Windows\", \"User\")"
     rem EXIT /B
 ) ELSE (
     ECHO Winget найден, отлично...
@@ -31,6 +33,7 @@ IF ERRORLEVEL 1 (
     ECHO Scoop не установлен. Устанавливаю...
 	powershell.exe "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression"
 	set "PATH=%PATH%;%USERPROFILE%\scoop\shims"
+	powershell.exe "[Environment]::SetEnvironmentVariable(\"PATH\", \"$([Environment]::GetEnvironmentVariable(\"PATH\", \"User\"));$env:USERPROFILE\scoop\shims\", \"User\")"
 ) ELSE (
     ECHO Scoop найден, отлично...
 )
@@ -39,8 +42,7 @@ echo ###Ищем Git...
 where /q git
 IF ERRORLEVEL 1 (
     ECHO Git отсутствует. Он тоже нужен, установим его сейчас...
-	powershell.exe "$env:Path = '~\scoop\shims;' + $env:Path"
-	powershell.exe "scoop install git"
+	powershell.exe "$env:Path += \";$env:USERPROFILE\scoop\shims\"; scoop install git"
 ) ELSE (
     ECHO Git найден, отлично...
 )
@@ -49,9 +51,7 @@ echo ###Установка obsidian-cli и tectonic...
 where /q obsidian-cli
 IF ERRORLEVEL 1 (
     ECHO obsidian-cli не установлен. Устанавливаю...
-	powershell.exe "$env:Path = '~\scoop\shims;' + $env:Path"
-	powershell.exe "scoop bucket add scoop-yakitrak https://github.com/yakitrak/scoop-yakitrak.git"
-	powershell.exe "scoop install obsidian-cli"
+	powershell.exe "$env:Path += \";$env:USERPROFILE\scoop\shims\"; scoop bucket add scoop-yakitrak https://github.com/yakitrak/scoop-yakitrak.git; scoop install obsidian-cli"
 ) ELSE (
 	ECHO obsidian-cli найден, отлично...
 )
@@ -59,8 +59,7 @@ IF ERRORLEVEL 1 (
 where /q tectonic
 IF ERRORLEVEL 1 (
     ECHO tectonic не установлен. Устанавливаю...
-	powershell.exe "$env:Path = '~\scoop\shims;' + $env:Path"
-	powershell.exe "scoop install tectonic"
+	powershell.exe "$env:Path += \";$env:USERPROFILE\scoop\shims\"; scoop install tectonic"
 ) ELSE (
 	ECHO tectonic найден, отлично...
 )
