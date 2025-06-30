@@ -9,11 +9,20 @@ md %USERPROFILE%\.konspekt 2>nul
 echo ###Проверка наличия Winget в системе
 where /q winget
 IF ERRORLEVEL 1 (
-    ECHO Winget не установлен. Установите его, например, из магазина приложений Windows, или скачайте по ссылке "https://api.github.com/repos/microsoft/winget-cli/releases/latest"
+    ECHO Winget не установлен. Попытка установки...
 	pause
-    EXIT /B
+	powershell.exe "Invoke-WebRequest -Uri https://github.com/microsoft/winget-cli/releases/download/v1.11.400/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle -OutFile C:\Users\$env:USERNAME\WinGet.msixbundle"
+	ECHO Если что-то пошло не так, вы можете установите его вручную из магазина приложений Windows, или скачать по ссылке "https://github.com/microsoft/winget-cli/releases/download/v1.11.400/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+	set "PATH=%PATH%;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps"
+    rem EXIT /B
 ) ELSE (
     ECHO Winget найден, отлично...
+)
+
+where /q winget
+IF ERRORLEVEL 1 (
+	ECHO Установка Winget не удалась. Установите его вручную или обновите вашу версию Windows.
+	EXIT /B
 )
 
 echo ###Посмотрим, установлен ли Scoop...
