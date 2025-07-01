@@ -130,7 +130,7 @@ else
 	echo "Zotero уже установлен."
 fi
 zotero_path=$(ls /Applications |grep Zotero)
-if [[ $obsidian_path = "" ]]; then echo "Не удалось установить Zotero. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; brew install --cask zotero; zotero_path=$(ls /Applications |grep Zotero); else echo "Zotero успешно установлен"; fi
+if [[ $zotero_path = "" ]]; then echo "Не удалось установить Zotero. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; brew install --cask zotero; zotero_path=$(ls /Applications |grep Zotero); else echo "Zotero успешно установлен"; fi
 
 echo 'Загрузка плагинов Zotero...'
 curl -o $HOME/.konspekt/zotmoov.zip -L https://github.com/wileyyugioh/zotmoov/releases/download/1.2.18/zotmoov-1.2.18-fx.xpi
