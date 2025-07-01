@@ -10,7 +10,7 @@ if ! command -v brew &> /dev/null; then
     echo "Homebrew не найден. Устанавливаем..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
-if [ ! -f /Users/$USER/.zprofiles ]; then
+if [ ! -f /Users/$USER/.zprofile ]; then
     echo >> /Users/$USER/.zprofile
 fi
 arch=$(sysctl -n machdep.cpu.brand_string |cut -w -f1)
@@ -18,6 +18,8 @@ if ! grep 'brew shellenv' /Users/$USER/.zprofile &> /dev/null; then
     if [[ $arch = "Apple" ]]; then echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/$USER/.zprofile; else echo 'eval "$(/usr/local/bin/brew shellenv)"' >> /Users/$USER/.zprofile; fi
 fi
 source ~/.zprofile
+brew_path=$(which brew)
+if [[ $brew_path = "brew not found" ]]; then echo "Не удалось установить Homebrew. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; brew_path=$(which brew); else echo "Homebrew успешно установлен"; fi
 
 # Installing packages
 
@@ -25,23 +27,21 @@ which pandoc &> /dev/null
 if [ $? -ne 0 ]; then
     echo 'Установка Pandoc...'
     brew install pandoc
-    pandoc_path=$(which pandoc)
 else
     echo "Pandoc уже установлен."
-    pandoc_path=$(which pandoc)
 fi
-echo $pandoc_path
+pandoc_path=$(which pandoc)
+if [[ $pandoc_path = "pandoc not found" ]]; then echo "Не удалось установить Pandoc. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; brew install pandoc; pandoc_path=$(which pandoc); else echo "Pandoc успешно установлен"; fi
 
 which tectonic &> /dev/null
 if [ $? -ne 0 ]; then
     echo 'Установка Tectonic...'
     brew install tectonic
-    tectonic_path=$(which tectonic)
 else
     echo "Tectonic уже установлен."
-    tectonic_path=$(which tectonic)
 fi
-echo $tectonic_path
+tectonic_path=$(which tectonic)
+if [[ $tectonic_path = "tectonic not found" ]]; then echo "Не удалось установить tectonic. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; brew install tectonic; tectonic_path=$(which tectonic); else echo "tectonic успешно установлен"; fi
 
 # ls -l /Applications |grep Zettlr &> /dev/null
 # if [ $? -ne 0 ]; then
@@ -58,6 +58,8 @@ if [ $? -ne 0 ]; then
 else
     echo "Obsidian уже установлен."
 fi
+obsidian_path=$(ls /Applications |grep Obsidian)
+if [[ $obsidian_path = "" ]]; then echo "Не удалось установить Obsidian. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; brew install --cask obsidian; obsidian_path=$(ls /Applications |grep Obsidian); else echo "Obsidian успешно установлен"; fi
 
 which obsidian-cli &> /dev/null
 if [ $? -ne 0 ]; then
@@ -68,7 +70,7 @@ else
     echo "obsidian-cli уже установлен."
 fi
 obcli_path=$(which obsidian-cli)
-#echo $obcli_path
+if [[ $obcli_path = "obsidian-cli not found" ]]; then echo "Не удалось установить obsidian-cli. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; brew tap yakitrak/yakitrak; brew install yakitrak/yakitrak/obsidian-cli; obcli_path=$(which obsidian-cli); else echo "obsidian-cli успешно установлен"; fi
 
 echo 'Клонируем репозиторий с настройками Obsidian...'
 git clone https://github.com/dadaismee/konspekt-starter-pack.git $HOME/.konspekt
@@ -127,6 +129,8 @@ if [ $? -ne 0 ]; then
 else
 	echo "Zotero уже установлен."
 fi
+zotero_path=$(ls /Applications |grep Zotero)
+if [[ $obsidian_path = "" ]]; then echo "Не удалось установить Zotero. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; brew install --cask zotero; zotero_path=$(ls /Applications |grep Zotero); else echo "Zotero успешно установлен"; fi
 
 echo 'Загрузка плагинов Zotero...'
 curl -o $HOME/.konspekt/zotmoov.zip -L https://github.com/wileyyugioh/zotmoov/releases/download/1.2.18/zotmoov-1.2.18-fx.xpi
