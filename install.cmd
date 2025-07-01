@@ -101,6 +101,10 @@ if not exist C:\Users\%username%\konspekt_pack (
     echo Файлы хранилища Obsidian скопированы
 )
 
+echo Сейчас Obsidian будет закрыт.
+pause
+taskkill /f /t /im obsidian.exe
+
 if not exist %appdata%\obsidian\obsidian.json (
     echo Конфиг Obsidian не найден. Используем нашу заготовку...
 	copy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
@@ -109,13 +113,15 @@ if not exist %appdata%\obsidian\obsidian.json (
 	>nul find "konspekt_pack" %appdata%\obsidian\obsidian.json && (
 		echo Хранилище Obsidian с именем konspekt_pack уже существует
 		echo Переименуем его во избежание конфликтов...
-		powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian_$fdate.json; echo 'Старый конфиг хранилища был переименован в 'obsidian_$fdate.json"
+		powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian_$fdate.json; echo 'Старый конфиг хранилища был переименован в '$env:APPDATA\obsidian\obsidian_$fdate.json"
 		copy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
 		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+		echo При необходимости просто снова добавьте ваше старое хранилище вручную
 	) || (
-		echo Добавим новое хранилище Obsidian в существующий конфиг...
-		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace '}}}','},\"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\konspekt_pack\",\"ts\":1739264225722,\"open\":true}}}' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
-		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'e}},','e}, \"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\konspekt_pack\",\"ts\":1739264225722,\"open\":true}},' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+		echo Добавим наше хранилище Obsidian в существующий конфиг...
+		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace ',"open":true}','}'
+		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace '}}}','},\"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\konspekt_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace '}},','}, \"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\konspekt_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 		powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 	)
 )
