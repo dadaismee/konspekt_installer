@@ -19,7 +19,7 @@ if ! grep 'brew shellenv' /Users/$USER/.zprofile &> /dev/null; then
 fi
 source ~/.zprofile
 brew_path=$(which brew)
-if [[ $brew_path = "brew not found" ]]; then echo "Не удалось установить Homebrew. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; brew_path=$(which brew); else echo "Homebrew успешно установлен"; fi
+if [[ $brew_path = "brew not found" ]]; then echo "Не удалось установить Homebrew. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; brew_path=$(which brew); fi
 
 # Installing packages
 
@@ -31,7 +31,7 @@ else
     echo "Pandoc уже установлен."
 fi
 pandoc_path=$(which pandoc)
-if [[ $pandoc_path = "pandoc not found" ]]; then echo "Не удалось установить Pandoc. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; brew install pandoc; pandoc_path=$(which pandoc); else echo "Pandoc успешно установлен"; fi
+if [[ $pandoc_path = "pandoc not found" ]]; then echo "Не удалось установить Pandoc. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; brew install pandoc; pandoc_path=$(which pandoc); fi
 
 which tectonic &> /dev/null
 if [ $? -ne 0 ]; then
@@ -41,7 +41,7 @@ else
     echo "Tectonic уже установлен."
 fi
 tectonic_path=$(which tectonic)
-if [[ $tectonic_path = "tectonic not found" ]]; then echo "Не удалось установить tectonic. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; brew install tectonic; tectonic_path=$(which tectonic); else echo "tectonic успешно установлен"; fi
+if [[ $tectonic_path = "tectonic not found" ]]; then echo "Не удалось установить tectonic. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; brew install tectonic; tectonic_path=$(which tectonic); fi
 
 # ls -l /Applications |grep Zettlr &> /dev/null
 # if [ $? -ne 0 ]; then
@@ -59,7 +59,7 @@ else
     echo "Obsidian уже установлен."
 fi
 obsidian_path=$(ls /Applications |grep Obsidian)
-if [[ $obsidian_path = "" ]]; then echo "Не удалось установить Obsidian. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; brew install --cask obsidian; obsidian_path=$(ls /Applications |grep Obsidian); else echo "Obsidian успешно установлен"; fi
+if [[ $obsidian_path = "" ]]; then echo "Не удалось установить Obsidian. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; brew install --cask obsidian; obsidian_path=$(ls /Applications |grep Obsidian); fi
 
 which obsidian-cli &> /dev/null
 if [ $? -ne 0 ]; then
@@ -70,14 +70,14 @@ else
     echo "obsidian-cli уже установлен."
 fi
 obcli_path=$(which obsidian-cli)
-if [[ $obcli_path = "obsidian-cli not found" ]]; then echo "Не удалось установить obsidian-cli. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; brew tap yakitrak/yakitrak; brew install yakitrak/yakitrak/obsidian-cli; obcli_path=$(which obsidian-cli); else echo "obsidian-cli успешно установлен"; fi
+if [[ $obcli_path = "obsidian-cli not found" ]]; then echo "Не удалось установить obsidian-cli. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; brew tap yakitrak/yakitrak; brew install yakitrak/yakitrak/obsidian-cli; obcli_path=$(which obsidian-cli); fi
 
 echo 'Клонируем репозиторий с настройками Obsidian . . .'
 git clone https://github.com/dadaismee/konspekt-starter-pack.git $HOME/.konspekt
-if [ ! -f $HOME/.konspekt/obsidian.json ]; then	echo "Произошла ошибка при клонировании репозитория с настройками Obsidian. Проверьте подключение к интернету."; echo "Нажмите любую клавишу, чтобы попробовать ещё раз . . ."; read -k1 -s; git clone https://github.com/dadaismee/konspekt-starter-pack.git $HOME/.konspekt; fi
+if [ ! -f $HOME/.konspekt/obsidian.json ]; then	echo "Произошла ошибка при клонировании репозитория с настройками Obsidian. Проверьте подключение к интернету."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; git clone https://github.com/dadaismee/konspekt-starter-pack.git $HOME/.konspekt; fi
 
 echo "Сейчас Obsidian будет закрыт."
-echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s
+echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null
 killall Obsidian
 
 if [ ! -d $HOME/konspekt_pack ]; then
@@ -139,17 +139,17 @@ else
 	echo "Zotero уже установлен."
 fi
 zotero_path=$(ls /Applications |grep Zotero)
-if [[ $zotero_path = "" ]]; then echo "Не удалось установить Zotero. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Для продолжения нажмите любую клавишу . . ."; read -k1 -s; brew install --cask zotero; zotero_path=$(ls /Applications |grep Zotero); else echo "Zotero успешно установлен"; fi
+if [[ $zotero_path = "" ]]; then echo "Не удалось установить Zotero. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; brew install --cask zotero; zotero_path=$(ls /Applications |grep Zotero); else echo "Zotero успешно установлен"; fi
 
 echo 'Загрузка плагинов Zotero . . .'
 curl -o $HOME/.konspekt/zotmoov.zip -L https://github.com/wileyyugioh/zotmoov/releases/download/1.2.18/zotmoov-1.2.18-fx.xpi
-if [ ! -f $HOME/.konspekt/zotmoov.zip ]; then echo "Произошла ошибка при загрузке плагина zotmoov. Проверьте подключение к интернету."; echo "Нажмите любую клавишу, чтобы попробовать ещё раз . . ."; read -k1 -s; curl -o $HOME/.konspekt/zotmoov.zip -L https://github.com/wileyyugioh/zotmoov/releases/download/1.2.18/zotmoov-1.2.18-fx.xpi; fi
+if [ ! -f $HOME/.konspekt/zotmoov.zip ]; then echo "Произошла ошибка при загрузке плагина zotmoov. Проверьте подключение к интернету."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; curl -o $HOME/.konspekt/zotmoov.zip -L https://github.com/wileyyugioh/zotmoov/releases/download/1.2.18/zotmoov-1.2.18-fx.xpi; fi
 echo 'Загрузка плагина zotmoov завершена';
 mkdir -p $HOME/.konspekt/zotmoov
 unzip $HOME/.konspekt/zotmoov.zip -d ~/.konspekt/zotmoov &> /dev/null
 
 curl -o $HOME/.konspekt/bibtex.zip -L https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi
-if [ ! -f $HOME/.konspekt/zotmoov.zip ]; then echo "Произошла ошибка при загрузке плагина bibtex. Проверьте подключение к интернету."; echo "Нажмите любую клавишу, чтобы попробовать ещё раз . . ."; read -k1 -s; $HOME/.konspekt/bibtex.zip -L https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi; fi
+if [ ! -f $HOME/.konspekt/zotmoov.zip ]; then echo "Произошла ошибка при загрузке плагина bibtex. Проверьте подключение к интернету."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; $HOME/.konspekt/bibtex.zip -L https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi; fi
 echo 'Загрузка плагина bibtex завершена'
 mkdir -p $HOME/.konspekt/bibtex
 unzip $HOME/.konspekt/bibtex.zip -d ~/.konspekt/bibtex &> /dev/null
