@@ -127,7 +127,8 @@ sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/konspekt_pack/.obsid
 sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/konspekt_pack/.obsidian/plugins/obsidian-pandoc-reference-list/data.json
 
 open -a Obsidian
-echo 'Сейчас откроется Obsidian, нажмите "Доверять автору" и закройте приложение через Command+Q'
+echo 'Сейчас откроется Obsidian, нажмите "Доверять автору" (если будет такой запрос) и закройте приложение через Command+Q'
+sleep 2
 lsof -p $(pgrep -n Obsidian) +r 1 &> /dev/null
 sleep 2
 
@@ -139,7 +140,7 @@ else
 	echo "Zotero уже установлен."
 fi
 zotero_path=$(ls /Applications |grep Zotero)
-if [[ $zotero_path = "" ]]; then echo "Не удалось установить Zotero. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; brew install --cask zotero; zotero_path=$(ls /Applications |grep Zotero); else echo "Zotero успешно установлен"; fi
+if [[ $zotero_path = "" ]]; then echo "Не удалось установить Zotero. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; brew install --cask zotero; zotero_path=$(ls /Applications |grep Zotero); fi
 
 echo 'Загрузка плагинов Zotero . . .'
 curl -o $HOME/.konspekt/zotmoov.zip -L https://github.com/wileyyugioh/zotmoov/releases/download/1.2.18/zotmoov-1.2.18-fx.xpi
@@ -157,8 +158,9 @@ unzip $HOME/.konspekt/bibtex.zip -d ~/.konspekt/bibtex &> /dev/null
 if [ ! -f $HOME/Library/Application\ Support/Zotero/profiles.ini ]; then
     echo 'Сейчас откроется окно Zotero, выйдите из него через Command+Q'
     open -a Zotero
+    sleep 2
     lsof -p $(pgrep -n zotero) +r 1 &>/dev/null
-    sleep 1
+    sleep 2
 fi
 
 if [ ! -f $HOME/Zotero/zotero.sqlite ]; then
@@ -186,11 +188,12 @@ echo 'user_pref("extensions.zotero.translators.better-bibtex.citekeyFormatEditin
 echo 'user_pref("extensions.zotmoov.dst_dir", "/Users/'$USER'/konspekt_pack/07 service/literature PDF");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 echo 'Окно Zotero откроется для установки плагинов, выйдите из него через Command+Q'
 open -a Zotero
+sleep 2
 lsof -p $(pgrep -n zotero) +r 1 &> /dev/null
 sleep 2
 echo 'Активирую плагины Zotero...'
 sed -i '' -e 's|active":false,"userDisabled":true|active":true,"userDisabled":false|g' $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions.json
-sleep 1
+sleep 2
 echo 'Настраиваю авто-экспорт библиотеки Zotero...'
 cat $HOME/.konspekt/zotero.pref.js >> $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 sed -i '' -e "s|testuser|$(whoami)|g" $HOME/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
@@ -201,6 +204,7 @@ echo 'Очистка временных файлов завершена'
 
 echo 'Ещё раз откроем Zotero для финальных штрихов, закройте его через секунд 10'
 open -a Zotero
+sleep 2
 lsof -p $(pgrep -n zotero) +r 1 &> /dev/null
 sleep 2
 
