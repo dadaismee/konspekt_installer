@@ -19,7 +19,7 @@ if ! grep 'brew shellenv' /Users/$USER/.zprofile &> /dev/null; then
 fi
 source ~/.zprofile
 brew_path=$(which brew)
-if [[ $brew_path = "brew not found" ]]; then echo "Не удалось установить Homebrew. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; brew_path=$(which brew); fi
+if [[ $brew_path = "brew not found" ]]; then echo "Не удалось установить Homebrew. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; source ~/.zprofile; brew_path=$(which brew); fi
 
 # Installing packages
 
