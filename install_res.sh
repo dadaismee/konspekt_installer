@@ -73,22 +73,23 @@ obcli_path=$(which obsidian-cli)
 if [[ $obcli_path = "obsidian-cli not found" ]]; then echo "Не удалось установить obsidian-cli. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; brew tap yakitrak/yakitrak; brew install yakitrak/yakitrak/obsidian-cli; obcli_path=$(which obsidian-cli); fi
 
 echo 'Клонируем репозиторий с настройками Obsidian . . .'
-git clone https://github.com/dadaismee/konspekt-starter-pack.git $HOME/.konspekt
-if [ ! -f $HOME/.konspekt/obsidian.json ]; then	echo "Произошла ошибка при клонировании репозитория с настройками Obsidian. Проверьте подключение к интернету."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; git clone https://github.com/dadaismee/konspekt-starter-pack.git $HOME/.konspekt; fi
+rm -rf $HOME/.konspekt
+git clone https://github.com/dadaismee/konspekt-research-pack.git $HOME/.konspekt
+if [ ! -f $HOME/.konspekt/obsidian.json ]; then	echo "Произошла ошибка при клонировании репозитория с настройками Obsidian. Проверьте подключение к интернету."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; git clone https://github.com/dadaismee/konspekt-research-pack.git $HOME/.konspekt; fi
 
 echo "Сейчас Obsidian будет закрыт."
 echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null
 killall Obsidian
 
-if [ ! -d $HOME/konspekt_pack ]; then
-    cp -R $HOME/.konspekt/konspekt_pack $HOME
+if [ ! -d $HOME/research_pack ]; then
+    cp -R $HOME/.konspekt/research_pack $HOME
     echo "Файлы хранилища Obsidian скопированы"
 else
     echo "Файлы хранилища Obsidian уже на месте, сохраним их под другим именем . . ."
     fdate=$(date +%Y%m%d-%H%M%S)
-    mv $HOME/konspekt_pack $HOME/konspekt_pack_$fdate
+    mv $HOME/research_pack $HOME/research_pack_$fdate
     echo "Файлы хранилища с таким же названием были перемещены"
-    cp -R $HOME/.konspekt/konspekt_pack $HOME
+    cp -R $HOME/.konspekt/research_pack $HOME
     echo "Файлы хранилища Obsidian скопированы"
 fi
 
@@ -98,8 +99,8 @@ if [ ! -f $HOME/Library/Application\ Support/obsidian/obsidian.json ]; then
     cp $HOME/.konspekt/obsidian.json $HOME/Library/Application\ Support/obsidian/
     sed -i '' -e "s|test|$(whoami)|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
 else
-    if grep -q konspekt_pack $HOME/Library/Application\ Support/obsidian/obsidian.json; then
-        echo "Хранилище Obsidian с именем konspekt_pack уже существует"
+    if grep -q research_pack $HOME/Library/Application\ Support/obsidian/obsidian.json; then
+        echo "Хранилище Obsidian с именем research_pack уже существует"
         echo "Переименуем его во избежание конфликтов"
         fdate=$(date +%Y%m%d-%H%M%S)
         mv $HOME/Library/Application\ Support/obsidian/obsidian.json $HOME/Library/Application\ Support/obsidian/obsidian_$fdate.json
@@ -110,21 +111,21 @@ else
     else
         echo "Добавим новое хранилище Obsidian в существующий конфиг . . ."
 		sed -i '' -e "s|,"open":true}|}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
-        sed -i '' -e "s|}}}|}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/konspekt_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
-        sed -i '' -e "s|}},|}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/konspekt_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
+        sed -i '' -e "s|}}}|}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/research_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
+        sed -i '' -e "s|}},|}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/research_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
     fi
 fi
 
 
-obsidian-cli set-default konspekt_pack
+obsidian-cli set-default research_pack
 sleep 1
 
 echo 'Настраиваю плагины Obsidian . . .'
-sed -i '' -e "s|/usr/local/bin/tectonic|$tectonic_path|g" $HOME/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
-sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
-sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/konspekt_pack/.obsidian/plugins/obsidian-pandoc/data.json
-sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/konspekt_pack/.obsidian/plugins/obsidian-pandoc-reference-list/data.json
-sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/konspekt_pack/.obsidian/plugins/obsidian-pandoc-reference-list/data.json
+sed -i '' -e "s|/usr/local/bin/tectonic|$tectonic_path|g" $HOME/research_pack/.obsidian/plugins/obsidian-pandoc/data.json
+sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/research_pack/.obsidian/plugins/obsidian-pandoc/data.json
+sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/research_pack/.obsidian/plugins/obsidian-pandoc/data.json
+sed -i '' -e "s|/usr/local/bin/pandoc|$pandoc_path|g" $HOME/research_pack/.obsidian/plugins/obsidian-pandoc-reference-list/data.json
+sed -i '' -e "s|/Users/test|/Users/$USER|g" $HOME/research_pack/.obsidian/plugins/obsidian-pandoc-reference-list/data.json
 
 open -a Obsidian
 echo 'Сейчас откроется Obsidian, нажмите "Доверять автору" (если будет такой запрос) и закройте приложение через Command+Q'
@@ -150,7 +151,7 @@ mkdir -p $HOME/.konspekt/zotmoov
 unzip $HOME/.konspekt/zotmoov.zip -d ~/.konspekt/zotmoov &> /dev/null
 
 curl -o $HOME/.konspekt/bibtex.zip -L https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi
-if [ ! -f $HOME/.konspekt/zotmoov.zip ]; then echo "Произошла ошибка при загрузке плагина bibtex. Проверьте подключение к интернету."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; $HOME/.konspekt/bibtex.zip -L https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi; fi
+if [ ! -f $HOME/.konspekt/bibtex.zip ]; then echo "Произошла ошибка при загрузке плагина bibtex. Проверьте подключение к интернету."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; $HOME/.konspekt/bibtex.zip -L https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi; fi
 echo 'Загрузка плагина bibtex завершена'
 mkdir -p $HOME/.konspekt/bibtex
 unzip $HOME/.konspekt/bibtex.zip -d ~/.konspekt/bibtex &> /dev/null
@@ -185,7 +186,7 @@ sed -i '' "/lastAppVersion/d" /Users/$USER/Library/Application\ Support/Zotero/P
 sed -i '' "/lastAppBuildId/d" /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 echo 'user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "auth.lower + year");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 echo 'user_pref("extensions.zotero.translators.better-bibtex.citekeyFormatEditing", "auth.lower + year");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
-echo 'user_pref("extensions.zotmoov.dst_dir", "/Users/'$USER'/konspekt_pack/07 service/literature PDF");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
+echo 'user_pref("extensions.zotmoov.dst_dir", "/Users/'$USER'/research_pack/07 service/literature PDF");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 echo 'Окно Zotero откроется для установки плагинов, выйдите из него через Command+Q'
 open -a Zotero
 sleep 2
