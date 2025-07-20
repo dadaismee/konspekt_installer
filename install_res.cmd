@@ -4,6 +4,7 @@ echo Начало работы скрипта...
 pause
 
 powershell "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
+rd /s /q %USERPROFILE%\.konspekt 2>nul
 md %USERPROFILE%\.konspekt 2>nul
 
 echo ###Проверка наличия Winget в системе
