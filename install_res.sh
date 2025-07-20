@@ -73,6 +73,7 @@ obcli_path=$(which obsidian-cli)
 if [[ $obcli_path = "obsidian-cli not found" ]]; then echo "Не удалось установить obsidian-cli. Возможно, вам следует отключить или включить ваш VPN, или же подключиться к другой точке доступа / мобильной сети. Попробуем ещё раз."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; brew tap yakitrak/yakitrak; brew install yakitrak/yakitrak/obsidian-cli; obcli_path=$(which obsidian-cli); fi
 
 echo 'Клонируем репозиторий с настройками Obsidian . . .'
+rm -rf $HOME/.konspekt
 git clone https://github.com/dadaismee/konspekt-research-pack.git $HOME/.konspekt
 if [ ! -f $HOME/.konspekt/obsidian.json ]; then	echo "Произошла ошибка при клонировании репозитория с настройками Obsidian. Проверьте подключение к интернету."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; git clone https://github.com/dadaismee/konspekt-research-pack.git $HOME/.konspekt; fi
 
@@ -150,7 +151,7 @@ mkdir -p $HOME/.konspekt/zotmoov
 unzip $HOME/.konspekt/zotmoov.zip -d ~/.konspekt/zotmoov &> /dev/null
 
 curl -o $HOME/.konspekt/bibtex.zip -L https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi
-if [ ! -f $HOME/.konspekt/zotmoov.zip ]; then echo "Произошла ошибка при загрузке плагина bibtex. Проверьте подключение к интернету."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; $HOME/.konspekt/bibtex.zip -L https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi; fi
+if [ ! -f $HOME/.konspekt/bibtex.zip ]; then echo "Произошла ошибка при загрузке плагина bibtex. Проверьте подключение к интернету."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; $HOME/.konspekt/bibtex.zip -L https://github.com/retorquere/zotero-better-bibtex/releases/download/v7.0.5/zotero-better-bibtex-7.0.5.xpi; fi
 echo 'Загрузка плагина bibtex завершена'
 mkdir -p $HOME/.konspekt/bibtex
 unzip $HOME/.konspekt/bibtex.zip -d ~/.konspekt/bibtex &> /dev/null
