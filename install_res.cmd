@@ -13,6 +13,7 @@ IF ERRORLEVEL 1 (
     ECHO Winget не установлен. Попытка установки...
 	powershell.exe "Invoke-WebRequest -Uri https://github.com/microsoft/winget-cli/releases/download/v1.11.400/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle -OutFile C:\Users\$env:USERNAME\WinGet.msixbundle"
 	ECHO Если что-то пошло не так, вы можете установите его вручную из магазина приложений Windows, или скачать по ссылке "https://github.com/microsoft/winget-cli/releases/download/v1.11.400/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+	powershell.exe "Add-AppxPackage -Path C:\Users\$env:USERNAME\WinGet.msixbundle"
 	set "PATH=%PATH%;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps"
 	powershell.exe "$env:Path += \";$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\""
 	rem powershell.exe "[Environment]::SetEnvironmentVariable(\"PATH\", \"$([Environment]::GetEnvironmentVariable(\"PATH\", \"User\"));$env:USERPROFILE\AppData\Local\Microsoft\Windows\", \"User\")"
