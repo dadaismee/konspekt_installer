@@ -34,7 +34,7 @@ IF ERRORLEVEL 1 (
     ECHO Scoop не установлен. Устанавливаю...
 	powershell.exe "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression"
 	set "PATH=%PATH%;%USERPROFILE%\scoop\shims"
-	powershell.exe "[Environment]::SetEnvironmentVariable(\"PATH\", \"$([Environment]::GetEnvironmentVariable(\"PATH\", \"User\"));$env:USERPROFILE\scoop\shims\", \"User\")"
+	rem powershell.exe "[Environment]::SetEnvironmentVariable(\"PATH\", \"$([Environment]::GetEnvironmentVariable(\"PATH\", \"User\"));$env:USERPROFILE\scoop\shims\", \"User\")"
 ) ELSE (
     ECHO Scoop найден, отлично...
 )
