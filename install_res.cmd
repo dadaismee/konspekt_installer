@@ -11,12 +11,11 @@ echo ###Проверка наличия Winget в системе
 where /q winget
 IF ERRORLEVEL 1 (
     ECHO Winget не установлен. Попытка установки...
-	pause
 	powershell.exe "Invoke-WebRequest -Uri https://github.com/microsoft/winget-cli/releases/download/v1.11.400/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle -OutFile C:\Users\$env:USERNAME\WinGet.msixbundle"
 	ECHO Если что-то пошло не так, вы можете установите его вручную из магазина приложений Windows, или скачать по ссылке "https://github.com/microsoft/winget-cli/releases/download/v1.11.400/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
 	set "PATH=%PATH%;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps"
 	powershell.exe "$env:Path += \";$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\""
-	powershell.exe "[Environment]::SetEnvironmentVariable(\"PATH\", \"$([Environment]::GetEnvironmentVariable(\"PATH\", \"User\"));$env:USERPROFILE\AppData\Local\Microsoft\Windows\", \"User\")"
+	rem powershell.exe "[Environment]::SetEnvironmentVariable(\"PATH\", \"$([Environment]::GetEnvironmentVariable(\"PATH\", \"User\"));$env:USERPROFILE\AppData\Local\Microsoft\Windows\", \"User\")"
     rem EXIT /B
 ) ELSE (
     ECHO Winget найден, отлично...
