@@ -1,7 +1,7 @@
 @echo off & setlocal
 chcp 65001
 echo Начало работы скрипта...
-pause
+rem pause
 
 powershell "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
 rd /s /q %USERPROFILE%\.konspekt 2>nul
