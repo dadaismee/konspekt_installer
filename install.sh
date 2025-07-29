@@ -99,21 +99,29 @@ if [ ! -f $HOME/Library/Application\ Support/obsidian/obsidian.json ]; then
     cp $HOME/.konspekt/obsidian.json $HOME/Library/Application\ Support/obsidian/
     sed -i '' -e "s|test|$(whoami)|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
 else
-    if grep -q konspekt_pack $HOME/Library/Application\ Support/obsidian/obsidian.json; then
-        echo "Хранилище Obsidian с именем konspekt_pack уже существует"
-        echo "Переименуем его во избежание конфликтов"
-        fdate=$(date +%Y%m%d-%H%M%S)
-        mv $HOME/Library/Application\ Support/obsidian/obsidian.json $HOME/Library/Application\ Support/obsidian/obsidian_$fdate.json
-        echo "Старый конфиг хранилищ был переименован в obsidian_$fdate.json"
-        cp $HOME/.konspekt/obsidian.json $HOME/Library/Application\ Support/obsidian/
-        sed -i '' -e "s|test|$(whoami)|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
-		echo "При необходимости просто снова добавьте ваше старое хранилище вручную"
-    else
-        echo "Добавим новое хранилище Obsidian в существующий конфиг . . ."
-		sed -i '' -e "s|,"open":true}|}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
-        sed -i '' -e "s|}}}|}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/konspekt_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
-        sed -i '' -e "s|}},|}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/konspekt_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
-    fi
+    # if grep -q konspekt_pack $HOME/Library/Application\ Support/obsidian/obsidian.json; then
+        # echo "Хранилище Obsidian с именем konspekt_pack уже существует"
+        # echo "Переименуем его во избежание конфликтов"
+        # fdate=$(date +%Y%m%d-%H%M%S)
+        # mv $HOME/Library/Application\ Support/obsidian/obsidian.json $HOME/Library/Application\ Support/obsidian/obsidian_$fdate.json
+        # echo "Старый конфиг хранилищ был переименован в obsidian_$fdate.json"
+        # cp $HOME/.konspekt/obsidian.json $HOME/Library/Application\ Support/obsidian/
+        # sed -i '' -e "s|test|$(whoami)|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
+		# echo "При необходимости просто снова добавьте ваше старое хранилище вручную"
+    # else
+        # echo "Добавим новое хранилище Obsidian в существующий конфиг . . ."
+		# sed -i '' -e "s|,"open":true}|}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
+        # sed -i '' -e "s|}}}|}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/konspekt_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
+        # sed -i '' -e "s|}},|}, \"8095a1a7a15b1e3d\":{\"path\":\"/Users/$USER/konspekt_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
+    # fi
+    echo "Как минимум одно хранилище Obsidian уже существует"
+    echo "Переименуем его во избежание конфликтов"
+    fdate=$(date +%Y%m%d-%H%M%S)
+    mv $HOME/Library/Application\ Support/obsidian/obsidian.json $HOME/Library/Application\ Support/obsidian/obsidian_$fdate.json
+    echo "Старый конфиг хранилищ был переименован в obsidian_$fdate.json"
+    cp $HOME/.konspekt/obsidian.json $HOME/Library/Application\ Support/obsidian/
+    sed -i '' -e "s|test|$(whoami)|g" $HOME/Library/Application\ Support/obsidian/obsidian.json
+    echo "При необходимости просто снова добавьте ваше старое хранилище вручную"
 fi
 
 
