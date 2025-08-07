@@ -11,9 +11,9 @@ echo ###Проверка наличия Winget в системе
 where /q winget
 IF ERRORLEVEL 1 (
     ECHO Winget не установлен. Попытка установки...
-	powershell.exe "Invoke-WebRequest -Uri https://github.com/microsoft/winget-cli/releases/download/v1.11.400/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle -OutFile C:\Users\$env:USERNAME\WinGet.msixbundle"
+	powershell.exe "Invoke-WebRequest -Uri https://github.com/microsoft/winget-cli/releases/download/v1.11.400/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle -OutFile $env:USERPROFILE\WinGet.msixbundle"
 	ECHO Если что-то пошло не так, вы можете установите его вручную из магазина приложений Windows, или скачать по ссылке "https://github.com/microsoft/winget-cli/releases/download/v1.11.400/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-	powershell.exe "Add-AppxPackage -Path C:\Users\$env:USERNAME\WinGet.msixbundle"
+	powershell.exe "Add-AppxPackage -Path $env:USERPROFILE\WinGet.msixbundle"
 	set "PATH=%PATH%;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps"
 	powershell.exe "$env:Path += \";$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\""
 	rem powershell.exe "[Environment]::SetEnvironmentVariable(\"PATH\", \"$([Environment]::GetEnvironmentVariable(\"PATH\", \"User\"));$env:USERPROFILE\AppData\Local\Microsoft\Windows\", \"User\")"
@@ -76,7 +76,7 @@ if errorlevel 1 (
 rem set batchPath=%~dp0
 
 rem echo ###Установка Zettlr ...
-rem if not exist C:\Users\%username%\AppData\Local\Programs\Zettlr\Zettlr.exe (
+rem if not exist %userprofile%\AppData\Local\Programs\Zettlr\Zettlr.exe (
 rem    winget install -e --id Zettlr.Zettlr --silent
 rem )
 
@@ -85,20 +85,20 @@ curl.exe -o %USERPROFILE%\.konspekt\konspekt.zip -L https://github.com/dadaismee
 tar -xf %USERPROFILE%\.konspekt\konspekt.zip -C %USERPROFILE%\.konspekt
 
 echo ###Установка Obsidian ...
-if not exist C:\Users\%username%\AppData\Local\Programs\Obsidian\Obsidian.exe (
+if not exist %userprofile%\AppData\Local\Programs\Obsidian\Obsidian.exe (
     winget install -e --id Obsidian.Obsidian --silent
 )
 md %appdata%\obsidian 2>nul
 
-if not exist C:\Users\%username%\research_pack (
-    md C:\Users\%username%\research_pack 2>nul
-	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-research-pack-main\research_pack C:\Users\%username%\research_pack
+if not exist %userprofile%\research_pack (
+    md %userprofile%\research_pack 2>nul
+	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-research-pack-main\research_pack %userprofile%\research_pack
     echo Файлы хранилища Obsidian скопированы
 ) else (
     echo Файлы хранилища Obsidian уже на месте, сохраним их под другим именем...
 	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\research_pack $env:USERPROFILE\research_pack_$fdate; Write-Output 'Файлы хранилища с таким же названием были перемещены'"
-	md C:\Users\%username%\research_pack 2>nul
-	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-research-pack-main\research_pack C:\Users\%username%\research_pack
+	md %userprofile%\research_pack 2>nul
+	xcopy /eqy %USERPROFILE%\.konspekt\konspekt-research-pack-main\research_pack %userprofile%\research_pack
     echo Файлы хранилища Obsidian скопированы
 )
 
@@ -109,28 +109,28 @@ taskkill /f /t /im obsidian.exe
 if not exist %appdata%\obsidian\obsidian.json (
     echo Конфиг Obsidian не найден. Используем нашу заготовку...
 	copy %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
-	powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+	powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 ) else (
 	rem >nul find "research_pack" %appdata%\obsidian\obsidian.json && (
 		rem echo Хранилище Obsidian с именем research_pack уже существует
 		rem echo Переименуем его во избежание конфликтов...
 		rem powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian_$fdate.json; echo 'Старый конфиг хранилища был переименован в '$env:APPDATA\obsidian\obsidian_$fdate.json"
 		rem copy %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
-		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 		rem echo При необходимости просто снова добавьте ваше старое хранилище вручную
 	rem ) || (
 		rem echo Добавим наше хранилище Obsidian в существующий конфиг...
 		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace ',"open":true}','}'
 		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace '}}}','},\"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\research_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace '}},','}, \"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\research_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
-		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 	rem )
 	echo По крайней мере одно хранилище Obsidian уже существует
 	echo Переименуем его во избежание конфликтов...
 	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian_$fdate.json; echo 'Старый конфиг хранилища был переименован в '$env:APPDATA\obsidian\obsidian_$fdate.json"
 	echo 'Старый конфиг хранилища был переименован в '$env:APPDATA\obsidian\obsidian_$fdate.json"
 	copy %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
-	powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+	powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 	echo При необходимости просто снова добавьте ваше старое хранилище вручную
 )
 
@@ -139,14 +139,14 @@ powershell "obsidian-cli set-default research_pack"
 timeout 1
 
 echo Настраиваю плагины Obsidian...
-copy /Y %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian-pandoc_data_win.json C:\Users\%username%\research_pack\.obsidian\plugins\obsidian-pandoc\data.json
-powershell.exe "(Get-Content C:\Users\$env:USERNAME\research_pack\.obsidian\plugins\obsidian-pandoc\data.json) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII C:\Users\$env:USERNAME\research_pack\.obsidian\plugins\obsidian-pandoc\data.json"
-copy /Y %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian-pandoc-reference-list_data_win.json C:\Users\%username%\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json
-powershell.exe "(Get-Content C:\Users\$env:USERNAME\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII C:\Users\$env:USERNAME\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json"
+copy /Y %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian-pandoc_data_win.json %userprofile%\research_pack\.obsidian\plugins\obsidian-pandoc\data.json
+powershell.exe "(Get-Content $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc\data.json"
+copy /Y %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian-pandoc-reference-list_data_win.json %userprofile%\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json
+powershell.exe "(Get-Content $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json"
 
 echo Сейчас откроется Obsidian, нажмите "Доверять автору" и закройте приложение
 timeout 2
-start /wait C:\Users\%username%\AppData\Local\Programs\Obsidian\Obsidian.exe
+start /wait %userprofile%\AppData\Local\Programs\Obsidian\Obsidian.exe
 
 echo ###Установка Zotero ...
 if not exist "C:\Program Files\Zotero\zotero.exe" winget install -e --id DigitalScholar.Zotero --silent
@@ -187,10 +187,11 @@ if not exist %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\z
 	xcopy /eqy %USERPROFILE%\.konspekt\zotmoov %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions\zotmoov@wileyy.com
 )
 
+for /f "tokens=1,3delims=\" %%i in ('echo %userprofile%') do set profilename=%%j
 type %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js | findstr /v lastAppVersion | findstr /v lastAppBuildId > prefs.js
 echo user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "auth.lower + year");>> prefs.js
 echo user_pref("extensions.zotero.translators.better-bibtex.citekeyFormatEditing", "auth.lower + year");>> prefs.js
-echo user_pref("extensions.zotmoov.dst_dir", "C:\\Users\\%USERNAME%\\research_pack\\07 service\\literature PDF");>> prefs.js
+echo user_pref("extensions.zotmoov.dst_dir", "C:\\Users\\%profilename%\\research_pack\\07 service\\literature PDF");>> prefs.js
 copy /y prefs.js %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js
 
 echo Сейчас для установки плагинов откроется окно Zotero, выйдите из него через одну-две секунды
@@ -201,7 +202,7 @@ powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile
 
 echo Настраиваю авто-экспорт библиотеки Zotero...
 type %USERPROFILE%\.konspekt\konspekt-research-pack-main\zotero.pref_win.js >> %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js
-powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js) -replace 'testuser',$env:USERNAME | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js"
+powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js"
 
 
 echo Очистка временных файлов...
@@ -218,6 +219,6 @@ powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile
 
 echo Установка завершена, открываю Obsidian. Всего доброго!
 timeout 2
-start C:\Users\%username%\AppData\Local\Programs\Obsidian\Obsidian.exe
+start %userprofile%\AppData\Local\Programs\Obsidian\Obsidian.exe
 
 pause
