@@ -184,8 +184,6 @@ if [ ! -f $HOME/Library/Application\ Support/Zotero/profiles.ini ]; then
     sleep 2
 fi
 
-
-
 echo 'Устанавливаю и настраиваю плагины Zotero...'
 zotero_profile_name=$(grep 'Path=Profiles/' $HOME/Library/Application\ Support/Zotero/profiles.ini | cut -d/ -f2-)
 mkdir -p /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/extensions
