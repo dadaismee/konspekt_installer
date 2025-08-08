@@ -77,10 +77,10 @@ rm -rf $HOME/.konspekt
 git clone https://github.com/dadaismee/konspekt-research-pack.git $HOME/.konspekt
 if [ ! -f $HOME/.konspekt/obsidian.json ]; then	echo "Произошла ошибка при клонировании репозитория с настройками Obsidian. Проверьте подключение к интернету."; echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null; git clone https://github.com/dadaismee/konspekt-research-pack.git $HOME/.konspekt; fi
 
-echo "Сейчас Obsidian будет закрыт."
+echo "Сейчас все окна Obsidian будут закрыты."
 echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null
 killall Obsidian
-
+sleep 1
 if [ ! -d $HOME/research_pack ]; then
     cp -R $HOME/.konspekt/research_pack $HOME
     echo "Файлы хранилища Obsidian скопированы"
@@ -164,6 +164,10 @@ echo 'Загрузка плагина bibtex завершена'
 mkdir -p $HOME/.konspekt/bibtex
 unzip $HOME/.konspekt/bibtex.zip -d ~/.konspekt/bibtex &> /dev/null
 
+echo "Сейчас все окна Zotero будут закрыты."
+echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null
+killall Zotero
+sleep 1
 if [ ! -f $HOME/Library/Application\ Support/Zotero/profiles.ini ]; then
     echo 'Сейчас откроется окно Zotero, выйдите из него через Command+Q'
     open -a Zotero
