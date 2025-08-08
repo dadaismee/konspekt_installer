@@ -128,7 +128,6 @@ if not exist %appdata%\obsidian\obsidian.json (
 	echo По крайней мере одно хранилище Obsidian уже существует
 	echo Переименуем его во избежание конфликтов...
 	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian_$fdate.json; echo 'Старый конфиг хранилища был переименован в '$env:APPDATA\obsidian\obsidian_$fdate.json"
-	echo 'Старый конфиг хранилища был переименован в '$env:APPDATA\obsidian\obsidian_$fdate.json"
 	copy %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
 	powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
 	echo При необходимости просто снова добавьте ваше старое хранилище вручную
