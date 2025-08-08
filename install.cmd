@@ -168,15 +168,14 @@ pause
 taskkill /f /t /im zotero.exe
 timeout 1
 if not exist %userprofile%\Zotero\zotero.sqlite (
-    rem echo Копирую библиотеку Zotero...
-	rem copy %userprofile%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
 	echo Сейчас откроется окно Zotero, закройте его через одну-две секунды
 	timeout 2
 	powershell "start-process -wait 'C:\Program Files\Zotero\zotero.exe'"
 ) else (
-	rem powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\Zotero\zotero.sqlite $env:USERPROFILE\Zotero\zotero_$fdate.sqlite; $oldname1 = '      Существующая база Зотеро сохранена как ~/Zotero/zotero_'; $oldname2 = '.sqlite'; Write-Output $oldname1$fdate$oldname2"
-	rem copy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
-	rem echo Новая библиотека Зотеро установлена вместо существующей
+	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:USERPROFILE\Zotero\zotero.sqlite $env:USERPROFILE\Zotero\zotero_$fdate.sqlite; $oldname1 = '      Существующая база Зотеро сохранена как ~/Zotero/zotero_'; $restore = '      Вы можете восстановить её, если необходимо, переименовав этот файл в zotero.sqlite'; $oldname2 = '.sqlite'; Write-Output $oldname1$fdate$oldname2; Write-Output $restore"
+	echo Сейчас откроется окно Zotero, закройте его через одну-две секунды
+	timeout 2
+	powershell "start-process -wait 'C:\Program Files\Zotero\zotero.exe'"
 )
 
 echo Устанавливаю и настраиваю плагины Zotero...
