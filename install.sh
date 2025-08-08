@@ -168,6 +168,14 @@ echo "Сейчас все окна Zotero будут закрыты."
 echo "Нажмите Enter, когда будете готовы . . ."; read -s &>/dev/null
 killall Zotero
 sleep 1
+if [ -f $HOME/Zotero/zotero.sqlite ]; then
+    echo "Копирую библиотеку Zotero..."
+    fdate=$(date +%Y%m%d-%H%M%S)
+    mv /Users/$USER/Zotero/zotero.sqlite /Users/$USER/Zotero/zotero_$fdate.sqlite
+    echo "Существующая база Зотеро сохранена как ~/Zotero/zotero_$fdate.sqlite. Вы можете восстановить её, если необходимо, удалив _$fdate в названии этого файла."
+    sleep 1
+fi
+
 if [ ! -f $HOME/Library/Application\ Support/Zotero/profiles.ini ]; then
     echo 'Сейчас откроется окно Zotero, выйдите из него через Command+Q'
     open -a Zotero
@@ -176,16 +184,7 @@ if [ ! -f $HOME/Library/Application\ Support/Zotero/profiles.ini ]; then
     sleep 2
 fi
 
-if [ ! -f $HOME/Zotero/zotero.sqlite ]; then
-    echo "Копирую библиотеку Zotero..."
-    cp $HOME/.konspekt/zotero.sqlite /Users/$USER/Zotero/zotero.sqlite
-else
-    fdate=$(date +%Y%m%d-%H%M%S)
-    mv /Users/$USER/Zotero/zotero.sqlite /Users/$USER/Zotero/zotero_$fdate.sqlite
-    echo "Существующая база Зотеро сохранена как ~/Zotero/zotero_$fdate.sqlite. Вы можете восстановить её, если необходимо, удалив _$fdate в названии этого файла."
-    cp $HOME/.konspekt/zotero.sqlite /Users/$USER/Zotero/zotero.sqlite
-    echo "Новая библиотека Зотеро установлена вместо существующей"
-fi
+
 
 echo 'Устанавливаю и настраиваю плагины Zotero...'
 zotero_profile_name=$(grep 'Path=Profiles/' $HOME/Library/Application\ Support/Zotero/profiles.ini | cut -d/ -f2-)
