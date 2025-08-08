@@ -102,10 +102,10 @@ if not exist %userprofile%\konspekt_pack (
     echo Файлы хранилища Obsidian скопированы
 )
 
-echo Сейчас Obsidian будет закрыт.
+echo Сейчас все окна Obsidian будут закрыты.
 pause
 taskkill /f /t /im obsidian.exe
-
+timeout 1
 if not exist %appdata%\obsidian\obsidian.json (
     echo Конфиг Obsidian не найден. Используем нашу заготовку...
 	copy %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
@@ -163,6 +163,10 @@ if not exist %userprofile%\.konspekt\zotmoov.zip (
 	echo ###Загрузка плагина zotmoov завершена...
 )
 
+echo Сейчас все окна Zotero будут закрыты.
+pause
+taskkill /f /t /im zotero.exe
+timeout 1
 if not exist %userprofile%\Zotero\zotero.sqlite (
     rem echo Копирую библиотеку Zotero...
 	rem copy %userprofile%\.konspekt\konspekt-starter-pack-main\zotero.sqlite %userprofile%\Zotero\zotero.sqlite
