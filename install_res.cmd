@@ -109,7 +109,8 @@ timeout 1
 if not exist %appdata%\obsidian\obsidian.json (
     echo Конфиг Obsidian не найден. Используем нашу заготовку...
 	copy %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
-	powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:APPDATA\obsidian\obsidian.json"
+	rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:APPDATA\obsidian\obsidian.json"
+	powershell.exe "$utf8 = New-Object Text.UTF8Encoding; $content = (Get-Content -Raw -PSPath $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf); Set-Content -Value $utf8.GetBytes($content) -Encoding Byte -PSPath $env:APPDATA\obsidian\obsidian.json"
 ) else (
 	rem >nul find "research_pack" %appdata%\obsidian\obsidian.json && (
 		rem echo Хранилище Obsidian с именем research_pack уже существует
@@ -129,7 +130,8 @@ if not exist %appdata%\obsidian\obsidian.json (
 	echo Переименуем его во избежание конфликтов...
 	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian_$fdate.json; echo 'Старый конфиг хранилища был переименован в '$env:APPDATA\obsidian\obsidian_$fdate.json"
 	copy %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
-	powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:APPDATA\obsidian\obsidian.json"
+	rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:APPDATA\obsidian\obsidian.json"
+	powershell.exe "$utf8 = New-Object Text.UTF8Encoding; $content = (Get-Content -Raw -PSPath $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf); Set-Content -Value $utf8.GetBytes($content) -Encoding Byte -PSPath $env:APPDATA\obsidian\obsidian.json"
 	echo При необходимости просто снова добавьте ваше старое хранилище вручную
 )
 
