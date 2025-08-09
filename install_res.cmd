@@ -141,9 +141,11 @@ timeout 1
 
 echo Настраиваю плагины Obsidian...
 copy /Y %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian-pandoc_data_win.json %userprofile%\research_pack\.obsidian\plugins\obsidian-pandoc\data.json
-powershell.exe "(Get-Content $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc\data.json"
+rem powershell.exe "(Get-Content $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc\data.json"
+powershell.exe "$utf8 = New-Object Text.UTF8Encoding; $content = (Get-Content -Raw -PSPath $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf); Set-Content -Value $utf8.GetBytes($content) -Encoding Byte -PSPath $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc\data.json"
 copy /Y %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian-pandoc-reference-list_data_win.json %userprofile%\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json
-powershell.exe "(Get-Content $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json"
+rem powershell.exe "(Get-Content $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json"
+powershell.exe "$utf8 = New-Object Text.UTF8Encoding; $content = (Get-Content -Raw -PSPath $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf); Set-Content -Value $utf8.GetBytes($content) -Encoding Byte -PSPath $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json"
 
 echo Сейчас откроется Obsidian, нажмите "Доверять автору" и закройте приложение
 timeout 2

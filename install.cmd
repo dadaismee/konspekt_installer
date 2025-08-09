@@ -141,9 +141,11 @@ timeout 1
 
 echo Настраиваю плагины Obsidian...
 copy /Y %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian-pandoc_data_win.json %userprofile%\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json
-powershell.exe "(Get-Content $env:userprofile\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:userprofile\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json"
+rem powershell.exe "(Get-Content $env:userprofile\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:userprofile\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json"
+powershell.exe "$utf8 = New-Object Text.UTF8Encoding; $content = (Get-Content -Raw -PSPath $env:userprofile\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf); Set-Content -Value $utf8.GetBytes($content) -Encoding Byte -PSPath $env:userprofile\konspekt_pack\.obsidian\plugins\obsidian-pandoc\data.json"
 copy /Y %USERPROFILE%\.konspekt\konspekt-starter-pack-main\obsidian-pandoc-reference-list_data_win.json %userprofile%\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json
-powershell.exe "(Get-Content $env:userprofile\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:userprofile\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json"
+rem powershell.exe "(Get-Content $env:userprofile\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:userprofile\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json"
+powershell.exe "$utf8 = New-Object Text.UTF8Encoding; $content = (Get-Content -Raw -PSPath $env:userprofile\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf); Set-Content -Value $utf8.GetBytes($content) -Encoding Byte -PSPath $env:userprofile\konspekt_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json"
 
 echo Сейчас откроется Obsidian, нажмите "Доверять автору" и закройте приложение
 timeout 2
@@ -206,7 +208,8 @@ powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile
 
 echo Настраиваю авто-экспорт библиотеки Zotero...
 type %USERPROFILE%\.konspekt\konspekt-starter-pack-main\zotero.pref_win.js >> %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js
-powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js"
+rem powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js"
+powershell.exe "$utf8 = New-Object Text.UTF8Encoding; $content = (Get-Content -Raw -PSPath $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf); Set-Content -Value $utf8.GetBytes($content) -Encoding Byte -PSPath $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js"
 
 
 echo Очистка временных файлов...
@@ -219,7 +222,8 @@ timeout 2
 powershell "start-process -wait 'C:\Program Files\Zotero\zotero.exe'"
 
 echo Попытка настройки отображения Citation key...
-powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json) -replace 'true}}}','false}}}' | Out-File -encoding UTF8 $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json"
+rem powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json) -replace 'true}}}','false}}}' | Out-File -encoding UTF8 $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json"
+powershell.exe "$utf8 = New-Object Text.UTF8Encoding; $content = (Get-Content -Raw -PSPath $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json) -replace 'true}}}','false}}}'; Set-Content -Value $utf8.GetBytes($content) -Encoding Byte -PSPath $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json"
 
 echo Установка завершена, открываю Obsidian. Всего доброго!
 timeout 2
