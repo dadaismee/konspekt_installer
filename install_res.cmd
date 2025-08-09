@@ -109,27 +109,27 @@ timeout 1
 if not exist %appdata%\obsidian\obsidian.json (
     echo Конфиг Obsidian не найден. Используем нашу заготовку...
 	copy %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
-	powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+	powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:APPDATA\obsidian\obsidian.json"
 ) else (
 	rem >nul find "research_pack" %appdata%\obsidian\obsidian.json && (
 		rem echo Хранилище Obsidian с именем research_pack уже существует
 		rem echo Переименуем его во избежание конфликтов...
 		rem powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian_$fdate.json; echo 'Старый конфиг хранилища был переименован в '$env:APPDATA\obsidian\obsidian_$fdate.json"
 		rem copy %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
-		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:APPDATA\obsidian\obsidian.json"
 		rem echo При необходимости просто снова добавьте ваше старое хранилище вручную
 	rem ) || (
 		rem echo Добавим наше хранилище Obsidian в существующий конфиг...
 		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace ',"open":true}','}'
-		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace '}}}','},\"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\research_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
-		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace '}},','}, \"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\research_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}' | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
-		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace '}}}','},\"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\research_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}' | Out-File -encoding UTF8 $env:APPDATA\obsidian\obsidian.json"
+		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace '}},','}, \"8095a1a7a15b1e3d\":{\"path\":\"C:\\Users\\test\\research_pack\",\"ts\":1739264225722,\"open\":true}},\"showReleaseNotes\":false}' | Out-File -encoding UTF8 $env:APPDATA\obsidian\obsidian.json"
+		rem powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:APPDATA\obsidian\obsidian.json"
 	rem )
 	echo По крайней мере одно хранилище Obsidian уже существует
 	echo Переименуем его во избежание конфликтов...
 	powershell "$fdate = Get-Date -format 'yyyyMMdd-hhmmss'; Rename-Item $env:APPDATA\obsidian\obsidian.json $env:APPDATA\obsidian\obsidian_$fdate.json; echo 'Старый конфиг хранилища был переименован в '$env:APPDATA\obsidian\obsidian_$fdate.json"
 	copy %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian_win.json %appdata%\obsidian\obsidian.json
-	powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:APPDATA\obsidian\obsidian.json"
+	powershell.exe "(Get-Content $env:APPDATA\obsidian\obsidian.json) -replace 'test',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:APPDATA\obsidian\obsidian.json"
 	echo При необходимости просто снова добавьте ваше старое хранилище вручную
 )
 
@@ -139,9 +139,9 @@ timeout 1
 
 echo Настраиваю плагины Obsidian...
 copy /Y %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian-pandoc_data_win.json %userprofile%\research_pack\.obsidian\plugins\obsidian-pandoc\data.json
-powershell.exe "(Get-Content $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc\data.json"
+powershell.exe "(Get-Content $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc\data.json"
 copy /Y %USERPROFILE%\.konspekt\konspekt-research-pack-main\obsidian-pandoc-reference-list_data_win.json %userprofile%\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json
-powershell.exe "(Get-Content $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json"
+powershell.exe "(Get-Content $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:userprofile\research_pack\.obsidian\plugins\obsidian-pandoc-reference-list\data.json"
 
 echo Сейчас откроется Obsidian, нажмите "Доверять автору" и закройте приложение
 timeout 2
@@ -200,11 +200,11 @@ echo Сейчас для установки плагинов откроется 
 timeout 2
 powershell "start-process -wait 'C:\Program Files\Zotero\zotero.exe'"
 echo Активирую плагины Zotero...
-powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions.json) -replace 'active\":false,\"userDisabled\":true','active\":true,\"userDisabled\":false' | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions.json"
+powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions.json) -replace 'active\":false,\"userDisabled\":true','active\":true,\"userDisabled\":false' | Out-File -encoding UTF8 $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\extensions.json"
 
 echo Настраиваю авто-экспорт библиотеки Zotero...
 type %USERPROFILE%\.konspekt\konspekt-research-pack-main\zotero.pref_win.js >> %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js
-powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js"
+powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js) -replace 'testuser',(Split-Path -Path $env:userprofile -Leaf) | Out-File -encoding UTF8 $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js"
 
 
 echo Очистка временных файлов...
@@ -217,7 +217,7 @@ timeout 2
 powershell "start-process -wait 'C:\Program Files\Zotero\zotero.exe'"
 
 echo Попытка настройки отображения Citation key...
-powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json) -replace 'true}}}','false}}}' | Out-File -encoding ASCII $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json"
+powershell.exe "(Get-Content $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json) -replace 'true}}}','false}}}' | Out-File -encoding UTF8 $env:APPDATA\Zotero\Zotero\Profiles\%zotero_profile_name%\treePrefs.json"
 
 echo Установка завершена, открываю Obsidian. Всего доброго!
 timeout 2
