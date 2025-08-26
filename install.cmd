@@ -197,7 +197,7 @@ for /f "tokens=1,3delims=\" %%i in ('echo %userprofile%') do set profilename=%%j
 type %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js | findstr /v lastAppVersion | findstr /v lastAppBuildId > prefs.js
 echo user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "auth.lower + year");>> prefs.js
 echo user_pref("extensions.zotero.translators.better-bibtex.citekeyFormatEditing", "auth.lower + year");>> prefs.js
-echo user_pref("extensions.zotmoov.dst_dir", "C:\\Users\\%profilename%\\konspekt_pack\\07 service\\literature PDF");>> prefs.js
+echo user_pref("extensions.zotmoov.dst_dir", "C:\\Users\\%profilename%\\konspekt_pack\\05_service\\literature-PDF");>> prefs.js
 copy /y prefs.js %appdata%\Zotero\Zotero\Profiles\%zotero_profile_name%\prefs.js
 
 echo Сейчас для установки плагинов откроется окно Zotero, выйдите из него через одну-две секунды

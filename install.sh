@@ -195,7 +195,7 @@ sed -i '' "/lastAppVersion/d" /Users/$USER/Library/Application\ Support/Zotero/P
 sed -i '' "/lastAppBuildId/d" /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 echo 'user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "auth.lower + year");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 echo 'user_pref("extensions.zotero.translators.better-bibtex.citekeyFormatEditing", "auth.lower + year");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
-echo 'user_pref("extensions.zotmoov.dst_dir", "/Users/'$USER'/konspekt_pack/07 service/literature PDF");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
+echo 'user_pref("extensions.zotmoov.dst_dir", "/Users/'$USER'/konspekt_pack/05_service/literature-PDF");' >> /Users/$USER/Library/Application\ Support/Zotero/Profiles/$zotero_profile_name/prefs.js
 echo 'Окно Zotero откроется для установки плагинов, выйдите из него через Command+Q'
 open -a Zotero
 sleep 2
