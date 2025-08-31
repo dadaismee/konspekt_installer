@@ -149,7 +149,7 @@ powershell.exe "$utf8 = New-Object Text.UTF8Encoding; $content = (Get-Content -R
 
 echo Сейчас откроется Obsidian, нажмите "Доверять автору" и закройте приложение
 timeout 2
-start /wait %userprofile%\AppData\Local\Programs\Obsidian\Obsidian.exe
+powershell "start-process -wait $env:USERPROFILE\AppData\Local\Programs\Obsidian\Obsidian.exe"
 
 echo ###Установка Zotero ...
 if not exist "C:\Program Files\Zotero\zotero.exe" winget install -e --id DigitalScholar.Zotero --silent
@@ -227,6 +227,6 @@ powershell.exe "$utf8 = New-Object Text.UTF8Encoding; $content = (Get-Content -R
 
 echo Установка завершена, открываю Obsidian. Всего доброго!
 timeout 2
-start %userprofile%\AppData\Local\Programs\Obsidian\Obsidian.exe
+powershell "start-process $env:USERPROFILE\AppData\Local\Programs\Obsidian\Obsidian.exe"
 
 pause
